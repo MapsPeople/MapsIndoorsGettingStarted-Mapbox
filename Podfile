@@ -11,7 +11,7 @@ target 'MapsIndoorsGettingStarted-Mapbox' do
   pod 'MapsIndoors', :path => '/Users/fasa/MISDKIOS/'
   pod 'MapsIndoorsMapbox', :path => '/Users/fasa/MISDKIOS/'
   # Need the following for Mapbox SDK submodule to be built
-  pod 'MapboxDirections', '~> 2.10'
+  pod 'MapboxDirections', '~> 2.0'
 
 end
 
