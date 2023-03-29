@@ -1,10 +1,12 @@
 //  AppDelegate.swift
 import UIKit
+import MapsIndoorsCore
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
+    static let mApiKey = "d876ff0e60bb430b8fabb145" // MapsIndoors Test API Key
+    static let mapBoxApiKey = ProcessInfo.processInfo.environment["MAPBOX_API_KEY"]
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.

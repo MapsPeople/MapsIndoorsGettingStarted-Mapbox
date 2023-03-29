@@ -1,11 +1,8 @@
-//
 //  ViewController.swift
-//  MapsIndoorsGettingStarted-Mapbox
-//
-//  Created by M. Faizan Satti on 29/03/2023.
-//
-
 import UIKit
+import MapsIndoorsCore
+import MapsIndoorsMapbox
+import MapboxMaps
 
 class ViewController: UIViewController {
 
