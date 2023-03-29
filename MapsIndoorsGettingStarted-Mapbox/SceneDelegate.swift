@@ -1,10 +1,4 @@
-//
 //  SceneDelegate.swift
-//  MapsIndoorsGettingStarted-Mapbox
-//
-//  Created by M. Faizan Satti on 29/03/2023.
-//
-
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
