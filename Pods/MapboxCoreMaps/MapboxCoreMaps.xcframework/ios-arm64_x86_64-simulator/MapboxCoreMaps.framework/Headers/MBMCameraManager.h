@@ -220,22 +220,6 @@ __attribute__((visibility ("default")))
  */
 - (nonnull MBMCameraBounds *)getBounds __attribute((ns_returns_retained));
 /**
- * Sets whether multiple copies of the world will be rendered side by side beyond -180 and 180 degrees longitude.
- * If disabled, when the map is zoomed out far enough that a single representation of the world does not fill the map's entire
- * container, there will be blank space beyond 180 and -180 degrees longitude.
- * In this case, features that cross 180 and -180 degrees longitude will be cut in two (with one portion on the right edge of the
- * map and the other on the left edge of the map) at every zoom level.
- * By default, By renderWorldCopies is set to `true`.
- *
- * @param renderWorldCopies The `boolean` value defining whether rendering world copies is going to be enabled or not.
- */
-- (void)setRenderWorldCopiesForRenderWorldCopies:(BOOL)renderWorldCopies;
-/**
- * Returns whether multiple copies of the world are being rendered side by side beyond -180 and 180 degrees longitude.
- * @return `true` if rendering world copies is enabled, `false` otherwise.
- */
-- (BOOL)getRenderWorldCopies;
-/**
  * Prepares the drag gesture to use the provided screen coordinate as a pivot `point`. This function should be called each time when user starts a dragging action (e.g. by clicking on the map). The following dragging will be relative to the pivot.
  *
  * @param point The pivot `screen coordinate`, measured in `platform pixels` from top to bottom and from left to right.

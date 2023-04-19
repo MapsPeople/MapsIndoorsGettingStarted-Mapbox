@@ -9,7 +9,6 @@
 @class MBMCanonicalTileID;
 @class MBMCoordinateBounds;
 @class MBMCustomGeometrySourceOptions;
-@class MBMGeoJSONSourceData;
 @class MBMImage;
 @class MBMImageContent;
 @class MBMImageStretches;

@@ -33,7 +33,7 @@ public class PolylineAnnotationManager: AnnotationManagerInternal {
     // MARK: - Setup / Lifecycle
 
     /// Dependency required to add sources/layers to the map
-    private let style: StyleProtocol
+    private let style: Style
 
     /// Storage for common layer properties
     private var layerProperties: [String: Any] = [:] {
@@ -51,27 +51,17 @@ public class PolylineAnnotationManager: AnnotationManagerInternal {
 
     private weak var displayLinkCoordinator: DisplayLinkCoordinator?
 
-    private let offsetLineStringCalculator: OffsetLineStringCalculator
-
-    private var annotationBeingDragged: PolylineAnnotation?
-
     private var isDestroyed = false
-    private let dragLayerId: String
-    private let dragSourceId: String
 
     internal init(id: String,
-                  style: StyleProtocol,
+                  style: Style,
                   layerPosition: LayerPosition?,
-                  displayLinkCoordinator: DisplayLinkCoordinator,
-                  offsetLineStringCalculator: OffsetLineStringCalculator) {
+                  displayLinkCoordinator: DisplayLinkCoordinator) {
         self.id = id
         self.sourceId = id
         self.layerId = id
         self.style = style
         self.displayLinkCoordinator = displayLinkCoordinator
-        self.offsetLineStringCalculator = offsetLineStringCalculator
-        self.dragLayerId = id + "_drag-layer"
-        self.dragSourceId = id + "_drag-source"
 
         do {
             // Add the source with empty `data` property
@@ -85,7 +75,7 @@ public class PolylineAnnotationManager: AnnotationManagerInternal {
             try style.addPersistentLayer(layer, layerPosition: layerPosition)
         } catch {
             Log.error(
-                forMessage: "Failed to create source / layer in PolylineAnnotationManager. Error: \(error)",
+                forMessage: "Failed to create source / layer in PolylineAnnotationManager",
                 category: "Annotations")
         }
 
@@ -164,7 +154,9 @@ public class PolylineAnnotationManager: AnnotationManagerInternal {
         // build and update the source data
         let featureCollection = FeatureCollection(features: annotations.map(\.feature))
         do {
-            try style.updateGeoJSONSource(withId: sourceId, geoJSON: .featureCollection(featureCollection))
+            let data = try JSONEncoder().encode(featureCollection)
+            let jsonObject = try JSONSerialization.jsonObject(with: data) as! [String: Any]
+            try style.setSourceProperty(for: sourceId, property: "data", value: jsonObject)
         } catch {
             Log.error(
                 forMessage: "Could not update annotations in PolylineAnnotationManager due to error: \(error)",
@@ -234,7 +226,7 @@ public class PolylineAnnotationManager: AnnotationManagerInternal {
         }
     }
 
-    /// The line part between [trim-start, trim-end] will be marked as transparent to make a route vanishing effect. The line trim-off offset is based on the whole line range [0.0, 1.0].
+    /// The line trim-off percentage range based on the whole line gradinet range [0.0, 1.0]. The line part between [trim-start, trim-end] will be marked as transparent to make a route vanishing effect. If either 'trim-start' or 'trim-end' offset is out of valid range, the default range will be set.
     public var lineTrimOffset: [Double]? {
         get {
             return layerProperties["line-trim-offset"] as? [Double]
@@ -244,97 +236,15 @@ public class PolylineAnnotationManager: AnnotationManagerInternal {
         }
     }
 
-    // MARK: - User interaction handling
-
     internal func handleQueriedFeatureIds(_ queriedFeatureIds: [String]) {
-        guard annotations.map(\.id).contains(where: queriedFeatureIds.contains(_:)) else {
-            return
-        }
+        // Find if any `queriedFeatureIds` match an annotation's `id`
+        let tappedAnnotations = annotations.filter { queriedFeatureIds.contains($0.id) }
 
-        var tappedAnnotations: [PolylineAnnotation] = []
-        var annotations: [PolylineAnnotation] = []
-
-        for var annotation in self.annotations {
-            if queriedFeatureIds.contains(annotation.id) {
-                annotation.isSelected.toggle()
-                tappedAnnotations.append(annotation)
-            }
-            annotations.append(annotation)
-        }
-
-        self.annotations = annotations
-
-        delegate?.annotationManager(
-            self,
-            didDetectTappedAnnotations: tappedAnnotations)
-    }
-
-    private func createDragSourceAndLayer() {
-        var dragSource = GeoJSONSource()
-        dragSource.data = .empty
-        do {
-            try style.addSource(dragSource, id: dragSourceId)
-        } catch {
-            Log.error(forMessage: "Failed to add the source to style. Error: \(error)")
-        }
-
-        do {
-            // copy the existing layer as the drag layer
-            var properties = try style.layerProperties(for: layerId)
-            properties[SymbolLayer.RootCodingKeys.id.rawValue] = dragLayerId
-            properties[SymbolLayer.RootCodingKeys.source.rawValue] = dragSourceId
-
-            try style.addPersistentLayer(with: properties, layerPosition: .above(layerId))
-        } catch {
-            Log.error(forMessage: "Failed to add the layer to style. Error: \(error)")
-        }
-    }
-
-    private func removeDragSourceAndLayer() {
-        do {
-            try style.removeLayer(withId: dragLayerId)
-            try style.removeSource(withId: dragSourceId)
-        } catch {
-            Log.error(forMessage: "Failed to remove drag layer. Error: \(error)")
-        }
-    }
-
-    internal func handleDragBegin(with featureIdentifiers: [String]) {
-        guard let annotation = annotations.first(where: { featureIdentifiers.contains($0.id) && $0.isDraggable }) else { return }
-        createDragSourceAndLayer()
-
-        annotationBeingDragged = annotation
-        annotations.removeAll(where: { $0.id == annotation.id })
-
-        do {
-            try style.updateGeoJSONSource(withId: dragSourceId, geoJSON: .feature(annotation.feature))
-        } catch {
-            Log.error(forMessage: "Failed to update drag source. Error: \(error)")
-        }
-    }
-
-    internal func handleDragChanged(with translation: CGPoint) {
-        guard let annotationBeingDragged = annotationBeingDragged,
-        let offsetPoint = offsetLineStringCalculator.geometry(for: translation, from: annotationBeingDragged.lineString) else {
-            return
-        }
-
-        self.annotationBeingDragged?.lineString = offsetPoint
-        do {
-            try style.updateGeoJSONSource(withId: dragSourceId, geoJSON: .feature(annotationBeingDragged.feature))
-        } catch {
-            Log.error(forMessage: "Failed to update drag source. Error: \(error)")
-        }
-    }
-
-    internal func handleDragEnded() {
-        guard let annotationBeingDragged = annotationBeingDragged else { return }
-        annotations.append(annotationBeingDragged)
-        self.annotationBeingDragged = nil
-
-        // avoid blinking annotation by waiting
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.125) {
-            self.removeDragSourceAndLayer()
+        // If `tappedAnnotations` is not empty, call delegate
+        if !tappedAnnotations.isEmpty {
+            delegate?.annotationManager(
+                self,
+                didDetectTappedAnnotations: tappedAnnotations)
         }
     }
 }

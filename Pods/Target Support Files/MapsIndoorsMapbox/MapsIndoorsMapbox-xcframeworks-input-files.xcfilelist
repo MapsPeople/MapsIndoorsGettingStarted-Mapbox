@@ -1,2 +1,2 @@
 ${PODS_ROOT}/Target Support Files/MapsIndoorsMapbox/MapsIndoorsMapbox-xcframeworks.sh
-${PODS_ROOT}/../../../../MISDKIOS/release/4.0.0-beta7/MapsIndoorsMapbox.xcframework
+${PODS_ROOT}/MapsIndoorsMapbox/MapsIndoorsMapbox.xcframework

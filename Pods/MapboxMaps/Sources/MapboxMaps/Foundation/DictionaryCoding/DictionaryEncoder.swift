@@ -7,14 +7,11 @@ private protocol EncoderContainer {
 
 internal final class DictionaryEncoder {
     var userInfo: [CodingUserInfoKey: Any] = [:]
-    /// If `true`, nil values at top level will always be encoded as null.
     var shouldEncodeNilValues = false
     init() {}
 
     func encode<T>(_ value: T) throws -> [String: Any] where T: Encodable {
-        let encoder = Encoder(
-            userInfo: userInfo,
-            shouldEncodeNilValues: shouldEncodeNilValues)
+        let encoder = Encoder(userInfo: userInfo, shouldEncodeNilValues: shouldEncodeNilValues)
         guard let dictionary = try encoder.encode(value) as? [String: Any] else {
             throw Error.unexpectedType
         }
@@ -30,7 +27,8 @@ internal final class DictionaryEncoder {
     private static func encode<T: Encodable>(
         _ value: T,
         codingPath: [CodingKey],
-        userInfo: [CodingUserInfoKey: Any]
+        userInfo: [CodingUserInfoKey: Any],
+        shouldEncodeNilValues: Bool
     ) throws -> Any {
 
         switch value {
@@ -46,7 +44,7 @@ internal final class DictionaryEncoder {
             let encoder = Encoder(
                 codingPath: codingPath,
                 userInfo: userInfo,
-                shouldEncodeNilValues: false)
+                shouldEncodeNilValues: shouldEncodeNilValues)
             return try encoder.encode(value)
         }
     }
@@ -207,7 +205,8 @@ private extension DictionaryEncoder {
             let result = try DictionaryEncoder.encode(
                 value,
                 codingPath: codingPath.appending(key: key),
-                userInfo: userInfo)
+                userInfo: userInfo,
+                shouldEncodeNilValues: shouldEncodeNilValues)
             storage[key.stringValue] = .value(result)
         }
 
@@ -395,7 +394,8 @@ private extension DictionaryEncoder {
                 .value(try DictionaryEncoder.encode(
                     value,
                     codingPath: codingPath.appending(index: count),
-                    userInfo: userInfo)
+                    userInfo: userInfo,
+                    shouldEncodeNilValues: shouldEncodeNilValues)
                 ))
         }
 
@@ -510,7 +510,8 @@ private extension DictionaryEncoder {
             storage = try DictionaryEncoder.encode(
                 value,
                 codingPath: codingPath,
-                userInfo: userInfo)
+                userInfo: userInfo,
+                shouldEncodeNilValues: shouldEncodeNilValues)
         }
     }
 }

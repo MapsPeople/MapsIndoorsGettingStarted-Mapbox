@@ -8,4 +8,3 @@
 #import <MapboxCoreMaps/Snapshotter_Internal.h>
 #import <MapboxCoreMaps/StyleManager_Internal.h>
 #import <MapboxCoreMaps/ViewAnnotation_Internal.h>
-#import <MapboxCoreMaps/Version_Internal.h>

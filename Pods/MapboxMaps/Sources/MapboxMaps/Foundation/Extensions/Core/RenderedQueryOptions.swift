@@ -20,7 +20,6 @@ extension RenderedQueryOptions {
         self.init(__layerIds: layerIds, filter: filterJson)
     }
 
-    /// Filters the returned features with an ``Expression``.
     public var filter: Expression? {
 
         guard let filter = __filter else { return nil }

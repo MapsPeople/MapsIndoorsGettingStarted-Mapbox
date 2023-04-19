@@ -1,56 +1,60 @@
 PODS:
-  - MapboxCommon (23.4.0)
-  - MapboxCoreMaps (10.12.1):
-    - MapboxCommon (~> 23.4)
-  - MapboxMaps (10.12.1):
-    - MapboxCommon (= 23.4.0)
-    - MapboxCoreMaps (= 10.12.1)
-    - MapboxMobileEvents (= 1.0.10)
+  - MapboxCommon (23.0.0)
+  - MapboxCoreMaps (10.8.0):
+    - MapboxCommon (~> 23.0)
+  - MapboxDirections (2.10.0):
+    - Polyline (~> 5.0)
+    - Turf (~> 2.6.1)
+  - MapboxMaps (10.8.1):
+    - MapboxCommon (= 23.0.0)
+    - MapboxCoreMaps (= 10.8.0)
+    - MapboxMobileEvents (= 1.0.8)
     - Turf (~> 2.0)
-  - MapboxMobileEvents (1.0.10)
-  - MapsIndoors (4.0.0-beta7)
-  - MapsIndoorsCore (4.0.0-beta7):
-    - MapsIndoors (= 4.0.0-beta7)
-  - MapsIndoorsMapbox (4.0.0-beta7):
-    - MapboxMaps (~> 10.11)
-    - MapsIndoorsCore (= 4.0.0-beta7)
+  - MapboxMobileEvents (1.0.8)
+  - MapsIndoors (4.0.2)
+  - MapsIndoorsCore (4.0.2):
+    - MapsIndoors (= 4.0.2)
+  - MapsIndoorsMapbox (4.0.2):
+    - MapboxDirections (= 2.10.0)
+    - MapboxMaps (= 10.8.1)
+    - MapsIndoorsCore (= 4.0.2)
     - ValueAnimator (= 0.6.8)
+  - Polyline (5.1.0)
   - Turf (2.6.1)
   - ValueAnimator (0.6.8)
 
 DEPENDENCIES:
-  - MapsIndoors (from `/Users/fasa/MISDKIOS/`)
-  - MapsIndoorsCore (from `/Users/fasa/MISDKIOS/`)
-  - MapsIndoorsMapbox (from `/Users/fasa/MISDKIOS/`)
+  - MapsIndoors (~> 4.0.2)
+  - MapsIndoorsCore (~> 4.0.2)
+  - MapsIndoorsMapbox (~> 4.0.2)
 
 SPEC REPOS:
   trunk:
     - MapboxCommon
     - MapboxCoreMaps
+    - MapboxDirections
     - MapboxMaps
     - MapboxMobileEvents
+    - MapsIndoors
+    - MapsIndoorsCore
+    - MapsIndoorsMapbox
+    - Polyline
     - Turf
     - ValueAnimator
 
-EXTERNAL SOURCES:
-  MapsIndoors:
-    :path: "/Users/fasa/MISDKIOS/"
-  MapsIndoorsCore:
-    :path: "/Users/fasa/MISDKIOS/"
-  MapsIndoorsMapbox:
-    :path: "/Users/fasa/MISDKIOS/"
-
 SPEC CHECKSUMS:
-  MapboxCommon: 2945d39158111455f353524f3c2ad356bd8d546a
-  MapboxCoreMaps: c20f2bb1eb57b328982b1dead1258a5dd3bf09fe
-  MapboxMaps: a673c0923f645dc6f90e40bdc034b8567d8dead4
-  MapboxMobileEvents: de50b3a4de180dd129c326e09cd12c8adaaa46d6
-  MapsIndoors: d6c55b2c9c53df6696f53f4b941d05b87f128396
-  MapsIndoorsCore: f4a36b6cb59eeff8fff95c41dff652e4b3846a49
-  MapsIndoorsMapbox: 8a91a31165edca1d057006c18fe720ac3965fc5d
+  MapboxCommon: 3c82587e77a92aa34a6166b164dadb856be6975f
+  MapboxCoreMaps: 1f45781e96f509d7f0d2134153725003ca84820c
+  MapboxDirections: a620d78a54312c392323ba211df8ae7dd9a28ab4
+  MapboxMaps: 44e631a7725518487442933bb56e7c4e736b9f95
+  MapboxMobileEvents: febdd92835daa258ca1c1faad0821c0b3394ef40
+  MapsIndoors: be722b256ba5421dd8b59ffde46c1caab00f53bd
+  MapsIndoorsCore: 6cc77f328e490c8740fe14672248f29ea2008d8b
+  MapsIndoorsMapbox: e3fe6a8902d6a91174346d4f0d006d906a76255d
+  Polyline: 2a1f29f87f8d9b7de868940f4f76deb8c678a5b1
   Turf: 469ce2c3d22e5e8e4818d5a3b254699a5c89efa4
   ValueAnimator: b9ed721f3a0fc682ec857fd70dc933b28adb7522
 
-PODFILE CHECKSUM: 56774912940bf79d27e470f93a3b21720cf51e62
+PODFILE CHECKSUM: 64226f0e829b84abac6438114c29e3ccc5fb1d36
 
 COCOAPODS: 1.12.0

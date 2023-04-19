@@ -4,21 +4,17 @@
 import UIKit
 
 internal protocol StyleProtocol: AnyObject {
-    func addLayer(_ layer: Layer, layerPosition: LayerPosition?) throws
     func addPersistentLayer(_ layer: Layer, layerPosition: LayerPosition?) throws
     func addPersistentLayer(with properties: [String: Any], layerPosition: LayerPosition?) throws
     func removeLayer(withId id: String) throws
     func layerExists(withId id: String) -> Bool
-    func layerProperties(for layerId: String) throws -> [String: Any]
     func setLayerProperties(for layerId: String, properties: [String: Any]) throws
     func setLayerProperty(for layerId: String, property: String, value: Any) throws
 
-    func addSource(_ source: Source, id: String, dataId: String?) throws
+    func addSource(_ source: Source, id: String) throws
     func removeSource(withId id: String) throws
     func sourceExists(withId id: String) -> Bool
-    func setSourceProperty(for sourceId: String, property: String, value: Any) throws
     func setSourceProperties(for sourceId: String, properties: [String: Any]) throws
-    func updateGeoJSONSource(withId id: String, geoJSON: GeoJSONObject, dataId: String?) throws
 
     //swiftlint:disable function_parameter_count
     func addImage(_ image: UIImage,
@@ -27,21 +23,7 @@ internal protocol StyleProtocol: AnyObject {
                   stretchX: [ImageStretches],
                   stretchY: [ImageStretches],
                   content: ImageContent?) throws
-    func addImage(_ image: UIImage, id: String, sdf: Bool, contentInsets: UIEdgeInsets) throws
     func removeImage(withId id: String) throws
-    func imageExists(withId id: String) -> Bool
-}
-
-internal extension StyleProtocol {
-    func addImage(_ image: UIImage, id: String, sdf: Bool = false, contentInsets: UIEdgeInsets = .zero) throws {
-        try addImage(image, id: id, sdf: sdf, contentInsets: contentInsets)
-    }
-    func updateGeoJSONSource(withId id: String, geoJSON: GeoJSONObject, dataId: String? = nil) throws {
-        try updateGeoJSONSource(withId: id, geoJSON: geoJSON, dataId: dataId)
-    }
-    func addSource(_ source: Source, id: String, dataId: String? = nil)  throws {
-        try addSource(source, id: id, dataId: dataId)
-    }
 }
 
 // swiftlint:disable type_body_length
@@ -53,19 +35,13 @@ internal extension StyleProtocol {
 /// - Important: Style should only be used from the main thread.
 public final class Style: StyleProtocol {
 
-    private let sourceManager: StyleSourceManagerProtocol
     private let _styleManager: StyleManagerProtocol
     public weak var styleManager: StyleManager! {
         _styleManager.asStyleManager()
     }
 
-    internal convenience init(with styleManager: StyleManagerProtocol) {
-        self.init(with: styleManager, sourceManager: StyleSourceManager(styleManager: styleManager))
-    }
-
-    internal init(with styleManager: StyleManagerProtocol, sourceManager: StyleSourceManagerProtocol) {
+    internal init(with styleManager: StyleManagerProtocol) {
         self._styleManager = styleManager
-        self.sourceManager = sourceManager
 
         if let uri = StyleURI(rawValue: styleManager.getStyleURI()) {
             self.uri = uri
@@ -175,7 +151,6 @@ public final class Style: StyleProtocol {
             switch value {
             case Optional<Any>.none where result.keys.contains(key):
                 result[key] = Style.layerPropertyDefaultValue(for: layer.type, property: key).value
-            // swiftlint:disable syntactic_sugar
             case Optional<Any>.some:
                 result[key] = value
             default: break
@@ -204,13 +179,17 @@ public final class Style: StyleProtocol {
      Adds a `source` to the map
      - Parameter source: The source to add to the map.
      - Parameter identifier: A unique source identifier.
-     - Parameter dataId: An optional data ID to filter ``MapEvents.sourceDataLoaded`` to only the specified data source.
-     /// Applies only to GeoJSONSources
 
      - Throws: ``StyleError`` if there is a problem adding the `source`.
      */
-    public func addSource(_ source: Source, id: String, dataId: String? = nil) throws {
-        try sourceManager.addSource(source, id: id, dataId: dataId)
+    public func addSource(_ source: Source, id: String) throws {
+        let sourceDictionary = try source.jsonObject(userInfo: [.nonVolatilePropertiesOnly: true])
+        try addSource(withId: id, properties: sourceDictionary)
+
+        // volatile properties have to be set after the source has been added to the style
+        let volatileProperties = try source.jsonObject(userInfo: [.volatilePropertiesOnly: true])
+
+        try setSourceProperties(for: id, properties: volatileProperties)
     }
 
     /**
@@ -223,7 +202,8 @@ public final class Style: StyleProtocol {
      - Throws: ``TypeConversionError`` if there is a problem decoding the source data to the given `type`.
      */
     public func source<T>(withId id: String, type: T.Type) throws -> T where T: Source {
-        try sourceManager.source(withId: id, type: type)
+        let sourceProps = try sourceProperties(for: id)
+        return try type.init(jsonObject: sourceProps)
     }
 
     /**
@@ -238,7 +218,14 @@ public final class Style: StyleProtocol {
      - Throws: ``TypeConversionError`` if there is a problem decoding the source of given `id`.
      */
     public func source(withId id: String) throws -> Source {
-        try sourceManager.source(withId: id)
+        // Get the source properties for a given identifier
+        let sourceProps = try sourceProperties(for: id)
+
+        guard let typeString = sourceProps["type"] as? String,
+              let type = SourceType(rawValue: typeString) else {
+            throw TypeConversionError.invalidObject
+        }
+        return try type.sourceType.init(jsonObject: sourceProps)
     }
 
     /// Updates the `data` property of a given `GeoJSONSource` with a new value
@@ -248,14 +235,17 @@ public final class Style: StyleProtocol {
     ///   - id: The identifier representing the GeoJSON source.
     ///   - geoJSON: The new GeoJSON to be associated with the source data. i.e.
     ///   a feature or feature collection.
-    ///   - dataId: An optional data ID to filter ``MapEvents.sourceDataLoaded`` to only the specified data source
     ///
     /// - Throws: ``StyleError`` if there is a problem when updating GeoJSON source.
     ///
     /// - Attention: This method is only effective with sources of `GeoJSONSource`
     /// type, and cannot be used to update other source types.
-    public func updateGeoJSONSource(withId id: String, geoJSON: GeoJSONObject, dataId: String? = nil) throws {
-        try sourceManager.updateGeoJSONSource(withId: id, geoJSON: geoJSON, dataId: dataId)
+    public func updateGeoJSONSource(withId id: String, geoJSON: GeoJSONObject) throws {
+        guard let sourceInfo = allSourceIdentifiers.first(where: { $0.id == id }),
+              sourceInfo.type == .geoJson else {
+            fatalError("updateGeoJSONSource: Source with id '\(id)' is not a GeoJSONSource.")
+        }
+        try setSourceProperty(for: id, property: "data", value: geoJSON.toJSON())
     }
 
     /// `true` if and only if the style JSON contents, the style specified sprite,
@@ -455,8 +445,6 @@ public final class Style: StyleProtocol {
     /// The ordered list of the current style layers' identifiers and types
     public var allLayerIdentifiers: [LayerInfo] {
         return _styleManager.getStyleLayers().compactMap { info in
-            if info.is3DPuckLayer { return nil }
-
             guard let layerType = LayerType(rawValue: info.type) else {
                 assertionFailure("Failed to create LayerType from \(info.type)")
                 return nil
@@ -568,7 +556,9 @@ public final class Style: StyleProtocol {
     /// - Throws:
     ///     An error describing why the operation was unsuccessful.
     public func addSource(withId id: String, properties: [String: Any]) throws {
-        try sourceManager.addSource(withId: id, properties: properties)
+        try handleExpected {
+            return _styleManager.addStyleSource(forSourceId: id, properties: properties)
+        }
     }
 
     /// Removes an existing style source.
@@ -578,7 +568,9 @@ public final class Style: StyleProtocol {
     /// - Throws:
     ///     An error describing why the operation was unsuccessful.
     public func removeSource(withId id: String) throws {
-        try sourceManager.removeSource(withId: id)
+        try handleExpected {
+            return _styleManager.removeStyleSource(forSourceId: id)
+        }
     }
 
     /// Checks whether a given style source exists.
@@ -587,13 +579,19 @@ public final class Style: StyleProtocol {
     ///
     /// - Returns: `true` if the given source exists, `false` otherwise.
     public func sourceExists(withId id: String) -> Bool {
-        return sourceManager.sourceExists(withId: id)
+        return _styleManager.styleSourceExists(forSourceId: id)
     }
 
     /// The ordered list of the current style sources' identifiers and types. Identifiers for custom vector
     /// sources will not be included
     public var allSourceIdentifiers: [SourceInfo] {
-        return sourceManager.allSourceIdentifiers
+        return _styleManager.getStyleSources().compactMap { info in
+            guard let sourceType = SourceType(rawValue: info.type) else {
+                Log.error(forMessage: "Failed to create SourceType from \(info.type)", category: "Example")
+                return nil
+            }
+            return SourceInfo(id: info.id, type: sourceType)
+        }
     }
 
     // MARK: - Source properties
@@ -606,7 +604,7 @@ public final class Style: StyleProtocol {
     ///
     /// - Returns: The value of the property in the source with sourceId.
     public func sourceProperty(for sourceId: String, property: String) -> StylePropertyValue {
-        return sourceManager.sourceProperty(for: sourceId, property: property)
+        return _styleManager.getStyleSourceProperty(forSourceId: sourceId, property: property)
     }
 
     /// Sets a value to a style source property.
@@ -619,7 +617,9 @@ public final class Style: StyleProtocol {
     /// - Throws:
     ///     An error describing why the operation was unsuccessful.
     public func setSourceProperty(for sourceId: String, property: String, value: Any) throws {
-        try sourceManager.setSourceProperty(for: sourceId, property: property, value: value)
+        try handleExpected {
+            return _styleManager.setStyleSourcePropertyForSourceId(sourceId, property: property, value: value)
+        }
     }
 
     /// Gets style source properties.
@@ -632,7 +632,9 @@ public final class Style: StyleProtocol {
     /// - Throws:
     ///     An error describing why the operation was unsuccessful.
     public func sourceProperties(for sourceId: String) throws -> [String: Any] {
-        return try sourceManager.sourceProperties(for: sourceId)
+        return try handleExpected {
+            return _styleManager.getStyleSourceProperties(forSourceId: sourceId)
+        }
     }
 
     /// Sets style source properties.
@@ -650,7 +652,9 @@ public final class Style: StyleProtocol {
     /// - Throws:
     ///     An error describing why the operation was unsuccessful.
     public func setSourceProperties(for sourceId: String, properties: [String: Any]) throws {
-        try sourceManager.setSourceProperties(for: sourceId, properties: properties)
+        try handleExpected {
+            return _styleManager.setStyleSourcePropertiesForSourceId(sourceId, properties: properties)
+        }
     }
 
     /// Gets the default value of style source property.
@@ -662,7 +666,7 @@ public final class Style: StyleProtocol {
     /// - Returns:
     ///     The default value for the named property for the sources with type sourceType.
     public static func sourcePropertyDefaultValue(for sourceType: String, property: String) -> StylePropertyValue {
-        return StyleSourceManager.sourcePropertyDefaultValue(for: sourceType, property: property)
+        return StyleManager.getStyleSourcePropertyDefaultValue(forSourceType: sourceType, property: property)
     }
 
     // MARK: - Image source
@@ -733,13 +737,13 @@ public final class Style: StyleProtocol {
         }
 
         try handleExpected {
-            return _styleManager.addStyleImage(forImageId: id,
-                                               scale: Float(image.scale),
-                                               image: mbmImage,
-                                               sdf: sdf,
-                                               stretchX: stretchX,
-                                               stretchY: stretchY,
-                                               content: content)
+            return styleManager.addStyleImage(forImageId: id,
+                                              scale: Float(image.scale),
+                                              image: mbmImage,
+                                              sdf: sdf,
+                                              stretchX: stretchX,
+                                              stretchY: stretchY,
+                                              content: content)
         }
     }
 
@@ -778,7 +782,6 @@ public final class Style: StyleProtocol {
                                       bottom: contentBoxBottom)
         try addImage(image,
                      id: id,
-                     sdf: sdf,
                      stretchX: [ImageStretches(first: stretchXFirst, second: stretchXSecond)],
                      stretchY: [ImageStretches(first: stretchYFirst, second: stretchYSecond)],
                      content: contentBox)
@@ -1070,35 +1073,35 @@ public final class Style: StyleProtocol {
             return _styleManager.invalidateStyleCustomGeometrySourceRegion(forSourceId: sourceId, bounds: bounds)
         }
     }
-}
 
-// MARK: - Conversion helpers
+    // MARK: - Conversion helpers
 
-internal func handleExpected<Value, Error>(closure: () -> (Expected<Value, Error>)) throws {
-    let expected = closure()
+    private func handleExpected<Value, Error>(closure: () -> (Expected<Value, Error>)) throws {
+        let expected = closure()
 
-    if expected.isError() {
-        // swiftlint:disable force_cast
-        throw StyleError(message: expected.error as! String)
-        // swiftlint:enable force_cast
-    }
-}
-
-internal func handleExpected<Value, Error, ReturnType>(closure: () -> (Expected<Value, Error>)) throws -> ReturnType {
-    let expected = closure()
-
-    if expected.isError() {
-        // swiftlint:disable force_cast
-        throw StyleError(message: expected.error as! String)
-        // swiftlint:enable force_cast
+        if expected.isError() {
+            // swiftlint:disable force_cast
+            throw StyleError(message: expected.error as! String)
+            // swiftlint:enable force_cast
+        }
     }
 
-    guard let result = expected.value as? ReturnType else {
-        assertionFailure("Unexpected type mismatch. Type: \(String(describing: expected.value)) expect \(ReturnType.self)")
-        throw TypeConversionError.unexpectedType
-    }
+    private func handleExpected<Value, Error, ReturnType>(closure: () -> (Expected<Value, Error>)) throws -> ReturnType {
+        let expected = closure()
 
-    return result
+        if expected.isError() {
+            // swiftlint:disable force_cast
+            throw StyleError(message: expected.error as! String)
+            // swiftlint:enable force_cast
+        }
+
+        guard let result = expected.value as? ReturnType else {
+            assertionFailure("Unexpected type mismatch. Type: \(String(describing: expected.value)) expect \(ReturnType.self)")
+            throw TypeConversionError.unexpectedType
+        }
+
+        return result
+    }
 }
 
 // swiftlint:enable type_body_length
@@ -1121,7 +1124,7 @@ extension Style {
     /// - Parameter projection: The ``StyleProjection`` to apply to the style.
     /// - Throws: ``StyleError`` if the projection could not be applied.
     public func setProjection(_ projection: StyleProjection) throws {
-        let expected = _styleManager.setStyleProjectionPropertyForProperty(
+        let expected = styleManager.setStyleProjectionPropertyForProperty(
             StyleProjection.CodingKeys.name.rawValue,
             value: projection.name.rawValue)
         if expected.isError() {
@@ -1131,7 +1134,7 @@ extension Style {
 
     /// The current projection.
     public var projection: StyleProjection {
-        let projectionName = _styleManager.getStyleProjectionProperty(
+        let projectionName = styleManager.getStyleProjectionProperty(
             forProperty: StyleProjection.CodingKeys.name.rawValue)
         if projectionName.kind == .undefined {
             return StyleProjection(name: .mercator)

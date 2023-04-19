@@ -2,20 +2,29 @@ import Foundation
 import UIKit
 @_implementationOnly import MapboxCommon_Private
 
+#if swift(>=5.4)
 /// :nodoc:
 /// This API enables the Expressions DSL syntax and is not designed to be called directly.
 @resultBuilder
 public struct ExpressionArgumentBuilder {
-    /// :nodoc:
     public static func buildBlock(_ arguments: ExpressionArgumentConvertible...) -> [Expression.Argument] {
         return arguments.flatMap { $0.expressionArguments }
     }
 }
+#else
+/// :nodoc:
+/// This API enables the Expressions DSL syntax and is not designed to be called directly.
+@_functionBuilder
+public struct ExpressionArgumentBuilder {
+    public static func buildBlock(_ arguments: ExpressionArgumentConvertible...) -> [Expression.Argument] {
+        return arguments.flatMap { $0.expressionArguments }
+    }
+}
+#endif
 
 /// :nodoc:
 /// This API enables the Expressions DSL syntax and is not designed to be called directly.
 public protocol ExpressionArgumentConvertible {
-    /// :nodoc:
     var expressionArguments: [Expression.Argument] { get }
 }
 

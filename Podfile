@@ -6,13 +6,9 @@ target 'MapsIndoorsGettingStarted-Mapbox' do
   use_frameworks!
 
  # Pods for MapsIndoorsGettingStarted-Google
-  # Local development pod
-  pod 'MapsIndoorsCore', :path => '/Users/fasa/MISDKIOS/'
-  pod 'MapsIndoors', :path => '/Users/fasa/MISDKIOS/'
-  pod 'MapsIndoorsMapbox', :path => '/Users/fasa/MISDKIOS/'
-  # Need the following for Mapbox SDK submodule to be built
-  pod 'MapboxDirections', '~> 2.0'
-
+  pod 'MapsIndoorsCore', '~> 4.0.2'
+  pod 'MapsIndoors', '~> 4.0.2'
+  pod 'MapsIndoorsMapbox', '~> 4.0.2'
 end
 
 PROJECT_ROOT_DIR = File.dirname(File.expand_path(__FILE__))

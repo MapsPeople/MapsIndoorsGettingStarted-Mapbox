@@ -117,5 +117,5 @@ install_xcframework() {
   echo "Copied $source to $destination"
 }
 
-install_xcframework "${PODS_ROOT}/../../../../MISDKIOS/release/4.0.0-beta7/MapsIndoorsMapbox.xcframework" "MapsIndoorsMapbox" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
+install_xcframework "${PODS_ROOT}/MapsIndoorsMapbox/MapsIndoorsMapbox.xcframework" "MapsIndoorsMapbox" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
 

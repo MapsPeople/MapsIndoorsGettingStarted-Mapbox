@@ -20,14 +20,6 @@ public struct PolylineAnnotation: Annotation {
     /// Storage for layer properties
     internal var layerProperties: [String: Any] = [:]
 
-    /// Toggles the annotation's selection state.
-    /// If the annotation is deselected, it becomes selected.
-    /// If the annotation is selected, it becomes deselected.
-    public var isSelected: Bool = false
-
-    /// Property to determine whether annotation can be manually moved around map
-    public var isDraggable: Bool = false
-
     internal var feature: Feature {
         var feature = Feature(geometry: geometry)
         feature.identifier = .string(id)
@@ -41,17 +33,15 @@ public struct PolylineAnnotation: Annotation {
     }
 
     /// Create a polyline annotation with a `LineString` and an optional identifier.
-    public init(id: String = UUID().uuidString, lineString: LineString, isSelected: Bool = false, isDraggable: Bool = false) {
+    public init(id: String = UUID().uuidString, lineString: LineString) {
         self.id = id
         self.lineString = lineString
-        self.isSelected = isSelected
-        self.isDraggable = isDraggable
     }
 
     /// Create a polyline annotation with an array of coordinates and an optional identifier.
-    public init(id: String = UUID().uuidString, lineCoordinates: [CLLocationCoordinate2D], isSelected: Bool = false, isDraggable: Bool = false) {
+    public init(id: String = UUID().uuidString, lineCoordinates: [CLLocationCoordinate2D]) {
         let lineString = LineString(lineCoordinates)
-        self.init(id: id, lineString: lineString, isSelected: isSelected, isDraggable: isDraggable)
+        self.init(id: id, lineString: lineString)
     }
 
     // MARK: - Style Properties -

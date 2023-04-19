@@ -17,4 +17,3 @@
 #import "MBMCustomLayerHost.h"
 #import "MBMFetchTileFunctionCallback.h"
 #import "MBMCancelTileFunctionCallback.h"
-#import "MBMGeoJSONSourceData.h"

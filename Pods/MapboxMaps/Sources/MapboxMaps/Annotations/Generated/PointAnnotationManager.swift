@@ -15,10 +15,6 @@ public class PointAnnotationManager: AnnotationManagerInternal {
     }
 
     private var needsSyncSourceAndLayer = false
-    /// List of images used by this ``PointAnnotationManager``.
-    private(set) internal var allImages = Set<String>()
-    private let imagesManager: AnnotationImagesManagerProtocol
-    private var clusterOptions: ClusterOptions?
 
     // MARK: - Interaction
 
@@ -37,7 +33,7 @@ public class PointAnnotationManager: AnnotationManagerInternal {
     // MARK: - Setup / Lifecycle
 
     /// Dependency required to add sources/layers to the map
-    private let style: StyleProtocol
+    private let style: Style
 
     /// Storage for common layer properties
     private var layerProperties: [String: Any] = [:] {
@@ -55,52 +51,23 @@ public class PointAnnotationManager: AnnotationManagerInternal {
 
     private weak var displayLinkCoordinator: DisplayLinkCoordinator?
 
-    private let offsetPointCalculator: OffsetPointCalculator
-
-    private var annotationBeingDragged: PointAnnotation?
-
     private var isDestroyed = false
-    private let dragLayerId: String
-    private let dragSourceId: String
 
     internal init(id: String,
-                  style: StyleProtocol,
+                  style: Style,
                   layerPosition: LayerPosition?,
-                  displayLinkCoordinator: DisplayLinkCoordinator,
-                  clusterOptions: ClusterOptions? = nil,
-                  imagesManager: AnnotationImagesManagerProtocol,
-                  offsetPointCalculator: OffsetPointCalculator) {
+                  displayLinkCoordinator: DisplayLinkCoordinator) {
         self.id = id
         self.sourceId = id
         self.layerId = id
         self.style = style
-        self.clusterOptions = clusterOptions
-        self.imagesManager = imagesManager
         self.displayLinkCoordinator = displayLinkCoordinator
-        self.offsetPointCalculator = offsetPointCalculator
-        self.dragLayerId = id + "_drag-layer"
-        self.dragSourceId = id + "_drag-source"
-
-        imagesManager.register(imagesConsumer: self)
 
         do {
             // Add the source with empty `data` property
             var source = GeoJSONSource()
             source.data = .empty
-
-            // Set cluster options and create clusters if clustering is enabled
-            if let clusterOptions = clusterOptions {
-                source.cluster = true
-                source.clusterRadius = clusterOptions.clusterRadius
-                source.clusterProperties = clusterOptions.clusterProperties
-                source.clusterMaxZoom = clusterOptions.clusterMaxZoom
-            }
-
             try style.addSource(source, id: sourceId)
-
-            if let clusterOptions = clusterOptions {
-                createClusterLayers(clusterOptions: clusterOptions)
-            }
 
             // Add the correct backing layer for this annotation type
             var layer = SymbolLayer(id: layerId)
@@ -114,7 +81,7 @@ public class PointAnnotationManager: AnnotationManagerInternal {
             try style.addPersistentLayer(layer, layerPosition: layerPosition)
         } catch {
             Log.error(
-                forMessage: "Failed to create source / layer in PointAnnotationManager. Error: \(error)",
+                forMessage: "Failed to create source / layer in PointAnnotationManager",
                 category: "Annotations")
         }
 
@@ -123,66 +90,11 @@ public class PointAnnotationManager: AnnotationManagerInternal {
         displayLinkCoordinator.add(displayLinkParticipant)
     }
 
-    private func createClusterLayers(clusterOptions: ClusterOptions) {
-        let clusterLevelLayer = createClusterLevelLayer(clusterOptions: clusterOptions)
-        let clusterTextLayer = createClusterTextLayer(clusterOptions: clusterOptions)
-        do {
-            try addClusterLayer(clusterLayer: clusterLevelLayer)
-            try addClusterLayer(clusterLayer: clusterTextLayer)
-        } catch {
-            Log.error(
-                forMessage: "Failed to add cluster layer in PointAnnotationManager. Error: \(error)",
-                category: "Annotations")
-        }
-    }
-
-    private func addClusterLayer(clusterLayer: Layer) throws {
-        guard style.layerExists(withId: clusterLayer.id) else {
-            try style.addPersistentLayer(clusterLayer, layerPosition: .default)
-            return
-        }
-    }
-
-    private func createClusterLevelLayer(clusterOptions: ClusterOptions) -> CircleLayer {
-        let layedID = "mapbox-iOS-cluster-circle-layer-manager-" + id
-        var circleLayer = CircleLayer(id: layedID)
-        circleLayer.source = sourceId
-        circleLayer.circleColor = clusterOptions.circleColor
-        circleLayer.circleRadius = clusterOptions.circleRadius
-        circleLayer.filter = Exp(.has) { "point_count" }
-        return circleLayer
-    }
-
-    private func createClusterTextLayer(clusterOptions: ClusterOptions) -> SymbolLayer {
-        let layerID = "mapbox-iOS-cluster-text-layer-manager-" + id
-        var symbolLayer = SymbolLayer(id: layerID)
-        symbolLayer.source = sourceId
-        symbolLayer.textField = clusterOptions.textField
-        symbolLayer.textSize = clusterOptions.textSize
-        symbolLayer.textColor = clusterOptions.textColor
-        return symbolLayer
-    }
-
-    private func destroyClusterLayers() {
-        do {
-            try style.removeLayer(withId: "mapbox-iOS-cluster-circle-layer-manager-" + id)
-            try style.removeLayer(withId: "mapbox-iOS-cluster-text-layer-manager-" + id)
-        } catch {
-            Log.error(
-                forMessage: "Failed to remove cluster layer in PointAnnotationManager. Error: \(error)",
-                category: "Annotations")
-        }
-    }
-
     internal func destroy() {
         guard !isDestroyed else {
             return
         }
         isDestroyed = true
-
-        if clusterOptions != nil {
-            destroyClusterLayers()
-        }
 
         do {
             try style.removeLayer(withId: layerId)
@@ -198,7 +110,6 @@ public class PointAnnotationManager: AnnotationManagerInternal {
                 forMessage: "Failed to remove source for PointAnnotationManager with id \(id) due to error: \(error)",
                 category: "Annotations")
         }
-        removeAllImages()
         displayLinkCoordinator?.remove(displayLinkParticipant)
     }
 
@@ -214,14 +125,7 @@ public class PointAnnotationManager: AnnotationManagerInternal {
         }
         needsSyncSourceAndLayer = false
 
-        let newImages = Set(annotations.compactMap(\.image) + [annotationBeingDragged].compactMap(\.?.image))
-        let newImageNames = Set(newImages.map(\.name))
-        let unusedImages = allImages.subtracting(newImageNames)
-
-        addImages(newImages)
-        allImages = newImageNames
-
-        removeImages(unusedImages)
+        addImageToStyleIfNeeded(style: style)
 
         // Construct the properties dictionary from the annotations
         let dataDrivenLayerPropertyKeys = Set(annotations.flatMap { $0.layerProperties.keys })
@@ -258,7 +162,9 @@ public class PointAnnotationManager: AnnotationManagerInternal {
         // build and update the source data
         let featureCollection = FeatureCollection(features: annotations.map(\.feature))
         do {
-            try style.updateGeoJSONSource(withId: sourceId, geoJSON: .featureCollection(featureCollection))
+            let data = try JSONEncoder().encode(featureCollection)
+            let jsonObject = try JSONSerialization.jsonObject(with: data) as! [String: Any]
+            try style.setSourceProperty(for: sourceId, property: "data", value: jsonObject)
         } catch {
             Log.error(
                 forMessage: "Could not update annotations in PointAnnotationManager due to error: \(error)",
@@ -559,97 +465,15 @@ public class PointAnnotationManager: AnnotationManagerInternal {
         }
     }
 
-    // MARK: - User interaction handling
-
     internal func handleQueriedFeatureIds(_ queriedFeatureIds: [String]) {
-        guard annotations.map(\.id).contains(where: queriedFeatureIds.contains(_:)) else {
-            return
-        }
+        // Find if any `queriedFeatureIds` match an annotation's `id`
+        let tappedAnnotations = annotations.filter { queriedFeatureIds.contains($0.id) }
 
-        var tappedAnnotations: [PointAnnotation] = []
-        var annotations: [PointAnnotation] = []
-
-        for var annotation in self.annotations {
-            if queriedFeatureIds.contains(annotation.id) {
-                annotation.isSelected.toggle()
-                tappedAnnotations.append(annotation)
-            }
-            annotations.append(annotation)
-        }
-
-        self.annotations = annotations
-
-        delegate?.annotationManager(
-            self,
-            didDetectTappedAnnotations: tappedAnnotations)
-    }
-
-    private func createDragSourceAndLayer() {
-        var dragSource = GeoJSONSource()
-        dragSource.data = .empty
-        do {
-            try style.addSource(dragSource, id: dragSourceId)
-        } catch {
-            Log.error(forMessage: "Failed to add the source to style. Error: \(error)")
-        }
-
-        do {
-            // copy the existing layer as the drag layer
-            var properties = try style.layerProperties(for: layerId)
-            properties[SymbolLayer.RootCodingKeys.id.rawValue] = dragLayerId
-            properties[SymbolLayer.RootCodingKeys.source.rawValue] = dragSourceId
-
-            try style.addPersistentLayer(with: properties, layerPosition: .above(layerId))
-        } catch {
-            Log.error(forMessage: "Failed to add the layer to style. Error: \(error)")
-        }
-    }
-
-    private func removeDragSourceAndLayer() {
-        do {
-            try style.removeLayer(withId: dragLayerId)
-            try style.removeSource(withId: dragSourceId)
-        } catch {
-            Log.error(forMessage: "Failed to remove drag layer. Error: \(error)")
-        }
-    }
-
-    internal func handleDragBegin(with featureIdentifiers: [String]) {
-        guard let annotation = annotations.first(where: { featureIdentifiers.contains($0.id) && $0.isDraggable }) else { return }
-        createDragSourceAndLayer()
-
-        annotationBeingDragged = annotation
-        annotations.removeAll(where: { $0.id == annotation.id })
-
-        do {
-            try style.updateGeoJSONSource(withId: dragSourceId, geoJSON: .feature(annotation.feature))
-        } catch {
-            Log.error(forMessage: "Failed to update drag source. Error: \(error)")
-        }
-    }
-
-    internal func handleDragChanged(with translation: CGPoint) {
-        guard let annotationBeingDragged = annotationBeingDragged,
-              let offsetPoint = offsetPointCalculator.geometry(for: translation, from: annotationBeingDragged.point) else {
-            return
-        }
-
-        self.annotationBeingDragged?.point = offsetPoint
-        do {
-            try style.updateGeoJSONSource(withId: dragSourceId, geoJSON: .feature(annotationBeingDragged.feature))
-        } catch {
-            Log.error(forMessage: "Failed to update drag source. Error: \(error)")
-        }
-    }
-
-    internal func handleDragEnded() {
-        guard let annotationBeingDragged = annotationBeingDragged else { return }
-        annotations.append(annotationBeingDragged)
-        self.annotationBeingDragged = nil
-
-        // avoid blinking annotation by waiting
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.125) {
-            self.removeDragSourceAndLayer()
+        // If `tappedAnnotations` is not empty, call delegate
+        if !tappedAnnotations.isEmpty {
+            delegate?.annotationManager(
+                self,
+                didDetectTappedAnnotations: tappedAnnotations)
         }
     }
 }
@@ -660,24 +484,4 @@ extension PointAnnotationManager: DelegatingDisplayLinkParticipantDelegate {
     }
 }
 
-private extension PointAnnotationManager {
-
-    func addImages(_ images: Set<PointAnnotation.Image>) {
-        for image in images {
-            imagesManager.addImage(image.image, id: image.name, sdf: false, contentInsets: .zero)
-        }
-    }
-
-    func removeImages(_ names: Set<String>) {
-        for imageName in names {
-            imagesManager.removeImage(imageName)
-        }
-    }
-
-    func removeAllImages() {
-        let imagesToRemove = allImages
-        allImages.removeAll()
-        removeImages(imagesToRemove)
-    }
-}
 // End of generated file.
