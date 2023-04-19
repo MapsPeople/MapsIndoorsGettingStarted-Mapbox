@@ -49,7 +49,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         super.viewDidLoad()
         
         // Set up the Mapbox map view
-        let mapInitOptions = MapInitOptions(resourceOptions: ResourceOptions(accessToken: AppDelegate.mApiKey))
+        let mapInitOptions = MapInitOptions(resourceOptions: ResourceOptions(accessToken: AppDelegate.mapBoxApiKey), styleURI: StyleURI.light)
         mapView = MapView(frame: view.bounds, mapInitOptions: mapInitOptions)
         view.addSubview(mapView)
         
@@ -57,7 +57,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
         // Initialize the MPMapConfig with the Mapbox map view. A MPMapConfig is needed to initialise MPMapsIndoors.
-        mapConfig = MPMapConfig(mapBoxView: mapView, accessToken: AppDelegate.mapBoxApiKey!)
+        mapConfig = MPMapConfig(mapBoxView: mapView, accessToken: AppDelegate.mapBoxApiKey)
         
         Task {
             do {

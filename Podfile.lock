@@ -24,8 +24,6 @@ PODS:
   - ValueAnimator (0.6.8)
 
 DEPENDENCIES:
-  - MapsIndoors (~> 4.0.2)
-  - MapsIndoorsCore (~> 4.0.2)
   - MapsIndoorsMapbox (~> 4.0.2)
 
 SPEC REPOS:
@@ -55,6 +53,6 @@ SPEC CHECKSUMS:
   Turf: 469ce2c3d22e5e8e4818d5a3b254699a5c89efa4
   ValueAnimator: b9ed721f3a0fc682ec857fd70dc933b28adb7522
 
-PODFILE CHECKSUM: 64226f0e829b84abac6438114c29e3ccc5fb1d36
+PODFILE CHECKSUM: 8814b873ea75de93d8fb6f9f2fd23a2c30bc3222
 
 COCOAPODS: 1.12.0
