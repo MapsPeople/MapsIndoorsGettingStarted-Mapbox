@@ -1,58 +1,41 @@
 PODS:
-  - MapboxCommon (23.0.0)
-  - MapboxCoreMaps (10.8.0):
-    - MapboxCommon (~> 23.0)
-  - MapboxDirections (2.10.0):
-    - Polyline (~> 5.0)
-    - Turf (~> 2.6.1)
-  - MapboxMaps (10.8.1):
-    - MapboxCommon (= 23.0.0)
-    - MapboxCoreMaps (= 10.8.0)
-    - MapboxMobileEvents (= 1.0.8)
-    - Turf (~> 2.0)
-  - MapboxMobileEvents (1.0.8)
-  - MapsIndoors (4.0.2)
-  - MapsIndoorsCore (4.0.2):
-    - MapsIndoors (= 4.0.2)
-  - MapsIndoorsMapbox (4.0.2):
-    - MapboxDirections (= 2.10.0)
-    - MapboxMaps (= 10.8.1)
-    - MapsIndoorsCore (= 4.0.2)
-    - ValueAnimator (= 0.6.8)
-  - Polyline (5.1.0)
-  - Turf (2.6.1)
-  - ValueAnimator (0.6.8)
+  - MapboxCommon (24.4.0)
+  - MapboxCoreMaps (11.4.0):
+    - MapboxCommon (~> 24.4)
+  - MapboxMaps (11.4.0):
+    - MapboxCommon (= 24.4.0)
+    - MapboxCoreMaps (= 11.4.0)
+    - Turf (= 2.8.0)
+  - MapsIndoors (4.5.7)
+  - MapsIndoorsCore (4.5.7):
+    - MapsIndoors (= 4.5.7)
+  - MapsIndoorsMapbox11 (4.5.7):
+    - MapboxMaps (= 11.4.0)
+    - MapsIndoorsCore (= 4.5.7)
+  - Turf (2.8.0)
 
 DEPENDENCIES:
-  - MapsIndoorsMapbox (~> 4.0.2)
+  - MapsIndoorsMapbox11 (~> 4.5.7)
 
 SPEC REPOS:
   trunk:
     - MapboxCommon
     - MapboxCoreMaps
-    - MapboxDirections
     - MapboxMaps
-    - MapboxMobileEvents
     - MapsIndoors
     - MapsIndoorsCore
-    - MapsIndoorsMapbox
-    - Polyline
+    - MapsIndoorsMapbox11
     - Turf
-    - ValueAnimator
 
 SPEC CHECKSUMS:
-  MapboxCommon: 3c82587e77a92aa34a6166b164dadb856be6975f
-  MapboxCoreMaps: 1f45781e96f509d7f0d2134153725003ca84820c
-  MapboxDirections: a620d78a54312c392323ba211df8ae7dd9a28ab4
-  MapboxMaps: 44e631a7725518487442933bb56e7c4e736b9f95
-  MapboxMobileEvents: febdd92835daa258ca1c1faad0821c0b3394ef40
-  MapsIndoors: be722b256ba5421dd8b59ffde46c1caab00f53bd
-  MapsIndoorsCore: 6cc77f328e490c8740fe14672248f29ea2008d8b
-  MapsIndoorsMapbox: e3fe6a8902d6a91174346d4f0d006d906a76255d
-  Polyline: 2a1f29f87f8d9b7de868940f4f76deb8c678a5b1
-  Turf: 469ce2c3d22e5e8e4818d5a3b254699a5c89efa4
-  ValueAnimator: b9ed721f3a0fc682ec857fd70dc933b28adb7522
+  MapboxCommon: 6acbd8ff41d66abf498e1558b0739f25c562945a
+  MapboxCoreMaps: f306bb1b10ebe995a2247b40e99322ab7f9b8071
+  MapboxMaps: 82044383ae19ec124ff444ec4b5d3ce82cb36ba5
+  MapsIndoors: 4d55a2cad9c50a6f5422c669227db1224f68676b
+  MapsIndoorsCore: b19c12854c09a444b3dbeaf8178a84cf498e9d8f
+  MapsIndoorsMapbox11: 6f7e1fa0afba22bb48924c53fbc0491ba0084dad
+  Turf: aa2ede4298009639d10db36aba1a7ebaad072a5e
 
-PODFILE CHECKSUM: 92be9a99cd971487f321c6170fd9cefe0f3e3a7b
+PODFILE CHECKSUM: 1221e4a67ed8d2b193e90289edf122d99416a557
 
-COCOAPODS: 1.12.0
+COCOAPODS: 1.15.2

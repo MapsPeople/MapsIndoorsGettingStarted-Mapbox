@@ -24,6 +24,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         button.backgroundColor = UIColor(red: 35/255, green: 85/255, blue: 84/255, alpha: 1)
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 8
+        button.contentEdgeInsets =  UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
         button.addTarget(self, action: #selector(toggleLivePosition), for: .touchUpInside)
         return button
     }()
@@ -34,6 +35,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         button.backgroundColor = UIColor(red: 35/255, green: 85/255, blue: 84/255, alpha: 1)
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 8
+        button.contentEdgeInsets =  UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
         button.addTarget(self, action: #selector(toggleLiveOccupancy), for: .touchUpInside)
         return button
     }()
@@ -49,8 +51,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         super.viewDidLoad()
         
         // Set up the Mapbox map view
-        let mapInitOptions = MapInitOptions(resourceOptions: ResourceOptions(accessToken: AppDelegate.mapBoxApiKey), styleURI: StyleURI.light)
-        mapView = MapView(frame: view.bounds, mapInitOptions: mapInitOptions)
+        let options = MapInitOptions()
+        mapView = MapView(frame: view.bounds, mapInitOptions: options)
         view.addSubview(mapView)
         
         // Set up the autoresizing mask to keep the map's frame synced with the view controller's frame.
@@ -73,7 +75,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                         let query = MPQuery()
                         let filter = MPFilter()
                         
-                        query.query = "Family Dining Room"
+                        query.query = "Dining room"
                         filter.take = 1
                         
                         let locations = await MPMapsIndoors.shared.locationsWith(query: query, filter: filter)

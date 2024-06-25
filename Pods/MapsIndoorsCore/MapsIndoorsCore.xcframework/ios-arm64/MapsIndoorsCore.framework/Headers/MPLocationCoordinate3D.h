@@ -44,6 +44,4 @@ static inline BOOL MPLocationCoordinate3DIsEqual( MPLocationCoordinate3D a, MPLo
     return (a.latLng.latitude == b.latLng.latitude) && (a.latLng.longitude == b.latLng.longitude) && (a.floorId == b.floorId);
 }
 
-#define MPLocationCoordinate3DNull      MPLocationCoordinate3DMake(0,0,0)
-
 #endif /* MPLocationCoordinate3D_h */

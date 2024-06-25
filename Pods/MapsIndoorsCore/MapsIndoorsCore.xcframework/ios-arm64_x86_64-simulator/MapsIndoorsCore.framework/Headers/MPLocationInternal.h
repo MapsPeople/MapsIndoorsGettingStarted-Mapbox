@@ -6,21 +6,6 @@
 //  Copyright (c) 2017 MapsPeople A/S. All rights reserved.
 //
 
-#define kLocationPropertyDescription @"description"
-#define kLocationPropertyDirections @"directions"
-#define kLocationPropertyImage @"image"
-#define kLocationPropertyOpeningHours @"openingHours"
-#define kLocationPropertyContact @"contact"
-#define kLocationPropertyPhone @"phone"
-#define kLocationPropertyDate @"date"
-#define kLocationPropertyEmail @"email"
-#define kLocationPropertyFax @"fax"
-#define kLocationPropertyTags @"_tags"
-#define kLocationPropertyUrl @"www"
-#define kLocationPropertyVideo @"video"
-#define MI_BUILDING_ID_PREFIX @"mi_b_"
-#define MI_VENUE_ID_PREFIX @"mi_v_"
-
 #import "JSONModel.h"
 @import Foundation;
 @import MapsIndoors;
@@ -28,15 +13,34 @@
 
 @class MILocation;
 @class MPLiveUpdate;
-@class MPLocationUpdate;
+@class MPLocationUpdateInternal;
 @protocol MPLocationFieldInternal;
 
 NS_ASSUME_NONNULL_BEGIN
+
+static NSString* const kLocationPropertyDescription = @"description";
+static NSString* const kLocationPropertyDirections = @"directions";
+static NSString* const kLocationPropertyImage = @"image";
+static NSString* const kLocationPropertyOpeningHours = @"openingHours";
+static NSString* const kLocationPropertyContact = @"contact";
+static NSString* const kLocationPropertyPhone = @"phone";
+static NSString* const kLocationPropertyDate = @"date";
+static NSString* const kLocationPropertyEmail = @"email";
+static NSString* const kLocationPropertyFax = @"fax";
+static NSString* const kLocationPropertyTags = @"_tags";
+static NSString* const kLocationPropertyUrl = @"www";
+static NSString* const kLocationPropertyVideo = @"video";
+static NSString* const MI_BUILDING_ID_PREFIX = @"mi_b_";
+static NSString* const MI_VENUE_ID_PREFIX = @"mi_v_";
 
 /**
  This class holds the data for a single location and a marker to display the data on a map.
  */
 @interface MPLocationInternal : JSONModel <MPLocation>
+
++ (dispatch_queue_t)sharedLocationQueue;
+    
++ (dispatch_queue_t)sharedLocationSerialQueue;
 
 /**
  Location id property.
@@ -166,10 +170,6 @@ Get a live update based on a known domain type
  */
 @property (nonatomic, strong, nullable) NSString* labelCacheKey;
 /**
- Parent Location ID
- */
-@property (nonatomic, weak, nullable, readonly) id<MPLocation> parentLocation;
-/**
  The internal model of Location.
  */
 @property (nonatomic, strong, nullable) MILocation* miLocation;
@@ -182,6 +182,10 @@ Get a live update based on a known domain type
  Location display rule.
  */
 @property (nonatomic, strong, nullable, readwrite) MPDisplayRule* displayRule;
+/**
+ Location settings.
+ */
+@property (nonatomic, strong, nullable, readwrite) MPLocationSettings* locationSettings;
 /**
  Location map icon anchor.
  */
@@ -197,7 +201,11 @@ Assign live updates to the location. Live update will be validated for timestamp
 */
 - (BOOL)assignLiveUpdate:(MPLiveUpdate*)liveUpdate;
 
-- (instancetype)initWithLocationUpdate:(MPLocationUpdate*) update;
+- (instancetype)initWithLocationUpdate:(MPLocationUpdateInternal*) update NS_SWIFT_NAME(init(locationUpdate:));
+
+- (int)miLocationId;
+
+- (int)miParentId;
 
 // Previously found in MPMutableLocation
 
@@ -206,11 +214,15 @@ Assign live updates to the location. Live update will be validated for timestamp
 @property (nonatomic, strong, nullable) UIImage *image;
 @property (nonatomic, strong) NSString* locationBaseTypeString;
 
-/**
- For internal use only, set byt the ClusterEngine if the MPLocation is part of a cluster.
- */
-@property (nonatomic, assign) BOOL isPartOfCluster;
+@property (nonatomic, readonly, strong) MPPoint * _Nonnull entityPosition;
+@property (nonatomic, readonly, strong) MPGeoBounds * _Nonnull entityBounds;
+@property (nonatomic, readonly) BOOL entityIsPoint;
 
+@end
+
+// From old implementation of `MPLocationUpdate`, moved here when translated to Swift
+@interface MPLocationUpdateConstants : NSObject
++ (NSInteger)MPLocationUpdateFloorInvalid;
 @end
 
 NS_ASSUME_NONNULL_END

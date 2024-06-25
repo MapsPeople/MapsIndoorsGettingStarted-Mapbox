@@ -6,7 +6,7 @@ import MapsIndoorsCore
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     static let mApiKey = "d876ff0e60bb430b8fabb145" // MapsIndoors Test API Key
-    static let mapBoxApiKey = ProcessInfo.processInfo.environment["MAPBOX_API_KEY"] ?? [YOUR_MAPBOX_API_KEY]
+    static let mapBoxApiKey = ProcessInfo.processInfo.environment["MBXAccessToken"] ?? "1234NotAToken"
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.

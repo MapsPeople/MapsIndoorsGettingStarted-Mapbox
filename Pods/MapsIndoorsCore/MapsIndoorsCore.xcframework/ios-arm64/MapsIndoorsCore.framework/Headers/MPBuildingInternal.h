@@ -21,6 +21,14 @@ NS_ASSUME_NONNULL_BEGIN
  Holds relevant data for a single building, and the buildings floor levels.
  */
 @interface MPBuildingInternal : JSONModel <MPBuilding>
+
+- (NSArray<id<MPLocation>>* _Nullable) getLocationsForBuildingAndFloors;
+
+/**
+ Get the MPLocation object that corresponds to this MPBuilding object.
+ */
+@property (nonatomic, strong, readonly, nonnull) id<MPLocation> asLocationObject;
+
 /**
  Holds the current floor.
  */

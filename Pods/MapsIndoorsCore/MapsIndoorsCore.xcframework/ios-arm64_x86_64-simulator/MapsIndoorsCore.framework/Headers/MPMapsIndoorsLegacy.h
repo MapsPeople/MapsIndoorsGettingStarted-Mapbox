@@ -6,20 +6,15 @@
 //  Copyright (c) 2016-2018 MapsPeople A/S. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import "MPDefines.h"
+@import Foundation;
 
 NS_ASSUME_NONNULL_BEGIN
 
 @class MPDataSetCacheManagerInternal;
 @class MPSolutionInternal;
-@class MPUserRole;
+@class MPRouteNetworkData;
+@class MPMemoryCache;
 @protocol MPAuthDetails;
-@protocol MPImageProviderProtocol;
-@protocol MPLocationSource;
-@protocol MPLocationsProvider;
-@protocol MPMapsIndoorsLegacyDelegate;
-@protocol MPPositionProvider;
 
 /**
  Content synchronisation callback handler block
@@ -44,11 +39,11 @@ typedef void(^mpOfflineDataHandlerBlockType)( NSError* _Nullable error);
 typedef void(^mpAuthDetailsHandlerBlockType)( id<MPAuthDetails> _Nullable authDetails, NSError* _Nullable error );
 
 
-#define kMPNotificationPositionProviderReassign         @"MP_POSITION_PROVIDER_REASSIGNED"
-#define kMPNotificationApiKeyInvalid                    @"MAPSINDOORS_API_KEY_INVALID"
-#define kMPNotificationAppDataUpdate                    @"MP_APP_DATA_UPDATE"
-#define kMPNotificationAppDataValueKey                  @"kMPNotificationAppDataValueKey"
-#define kMPNotificationAppDataErrorKey                  @"kMPNotificationAppDataErrorKey"
+static NSString* const kMPNotificationPositionProviderReassign = @"MP_POSITION_PROVIDER_REASSIGNED";
+static NSString* const kMPNotificationApiKeyInvalid = @"MAPSINDOORS_API_KEY_INVALID";
+static NSString* const kMPNotificationAppDataUpdate = @"MP_APP_DATA_UPDATE";
+static NSString* const kMPNotificationAppDataValueKey = @"kMPNotificationAppDataValueKey";
+static NSString* const kMPNotificationAppDataErrorKey = @"kMPNotificationAppDataErrorKey";
 
 
 #pragma mark - [INTERNAL - DO NOT USE]
@@ -92,14 +87,6 @@ typedef void(^mpAuthDetailsHandlerBlockType)( id<MPAuthDetails> _Nullable authDe
 + (NSString*)getLanguage;
 
 /**
- Fetch all neccesary content to be able to run MapsIndoors in offline environments.
- If you have registered custom location sources, they are not synchronized by this method - it is the responsibility of the provider of the custom location source to synchronize as appropriate.
- This method only synchronizes the current dataset - If you need to synchronize data for non-current datasets, please see ``dataSetCacheManager`` and ``MPDataSetCacheManager/synchronizeContent``
- - Parameter completionHandler: Callback function that fires when content has been fetched or if this process resolves in an error. Note: Does not automtically retry fetch.
- */
-+ (void)synchronizeContent:(mpSyncContentHandlerBlockType)completionHandler;
-
-/**
  Determine if enough data is available for a good user experience in offline mode.
  For results that are not dependent on timing of async calls, this is best used in the completion handler of +[MapsIndoors checkOfflineDataAvailabilityAsync:].
 
@@ -121,32 +108,13 @@ typedef void(^mpAuthDetailsHandlerBlockType)( id<MPAuthDetails> _Nullable authDe
  */
 + (void) fetchAuthenticationDetails:(mpAuthDetailsHandlerBlockType _Nonnull)completion;
 
-
-/**
- The position provider that MapsIndoors should use when user location services are needed.
- */
-@property (class, nullable) id<MPPositionProvider> positionProvider;
-
-/**
- The image provider that MapsIndoors should use when image ressources are needed. MapsIndoors will provide a default if this property is nil.
- */
-@property (class, nullable) id<MPImageProviderProtocol> imageProvider;
-
-/**
- Returns whether the current API key is valid or not.
- */
-+ (BOOL) isAPIKeyValid;
-
++ (void)setLoadedGraph:( MPRouteNetworkData* _Nullable )loadedGraph;
++ ( MPRouteNetworkData* _Nullable )getLoadedGraph;
 
 /**
  Get the shared dataset cache manager.
  */
 @property (class, readonly) MPDataSetCacheManagerInternal* dataSetCacheManager;
-
-/**
- Get or set the user roles that should apply generally for querying routes and locations. The roles are applied in an OR fashion. This means that if for example a locations internal restrictions matches one or more of the given roles, the location will be included in response object. Setting the user roles will only work when online.
- */
-@property (class, nonatomic, strong, nullable) NSArray<MPUserRole*>* userRoles;
 
 /**
   Gets or sets the event logging state. If enabled, the SDK will collect anonymous SDK usage data from the application. By default, the collection of usage event data is enabled, but in order for logs to be collected, the logging must also be enabled in the MapsIndoors CMS.
@@ -158,16 +126,12 @@ typedef void(^mpAuthDetailsHandlerBlockType)( id<MPAuthDetails> _Nullable authDe
  */
 @property (class, nonatomic, strong, nullable) NSString*       accessToken;
 
-/**
- Get or set the delegate object.
- */
-@property (class, nonatomic, weak, nullable) id<MPMapsIndoorsLegacyDelegate>       delegate;
-
-
 /// The MPSolution for the current API Key/language.
 ///
 /// Is `nil` if no data is present for the current API Key/language set
 @property (class, nullable, readonly) MPSolutionInternal* solution;
+
+@property (class, readonly) MPMemoryCache* memoryCache;
 
 @end
 

@@ -1,7 +1,6 @@
 // This file is generated and will be overwritten automatically.
 
 #import <Foundation/Foundation.h>
-#import <MapboxCoreMaps/MBMTask_Internal.h>
 
 NS_SWIFT_NAME(MapClient)
 @protocol MBMMapClient
@@ -12,5 +11,4 @@ NS_SWIFT_NAME(MapClient)
  * clients shall avoid performing any extra operations in this callback.
  */
 - (void)scheduleRepaint;
-- (void)scheduleTaskForTask:(nonnull MBMTask)task;
 @end

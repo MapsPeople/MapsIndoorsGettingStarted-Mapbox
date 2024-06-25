@@ -77,7 +77,7 @@ __attribute__((deprecated))
  * style and tile sources have been downloaded, it is possible to calculate the
  * precise number of required resources, at which point it is set to true.
  */
-@property (nonatomic, readonly, getter=isRequiredResourceCountIsPrecise) BOOL requiredResourceCountIsPrecise;
+@property (nonatomic, readonly) BOOL requiredResourceCountIsPrecise;
 
 
 @end

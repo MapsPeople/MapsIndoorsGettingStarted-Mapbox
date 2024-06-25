@@ -6,7 +6,7 @@
 //  Copyright © 2018 MapsPeople A/S. All rights reserved.
 //
 
-#import "MIGeometry.h"
+@import MICommon;
 @import MapsIndoors;
 
 NS_ASSUME_NONNULL_BEGIN

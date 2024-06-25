@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 @import MapsIndoors;
+#import "MPMapsIndoorsLegacy.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -44,9 +45,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, readonly) BOOL isSyncing;
 
+- (NSString*) pathForCachingUrl:(NSURL*)url dataSetId:(NSString*)dataSetId;
+
 /**
  Add data set to the list of managed data sets.
-
+ 
  - Parameter dataSetId: Data set id of the data set that should be added.
  - Returns: The cache object if data set was successfully added as a result of this call, if the dataset already existed this method returns nil.
  */
@@ -54,11 +57,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  Add data set to the list of managed data sets.
-
+ 
  - Parameter dataSetId: Data set id of the data set that should be added.
  - Parameter scope: Caching scope for this dataset.
  - Returns: The cache object if data set was successfully added as a result of this call, if the dataset already existed this method returns nil.
-*/
+ */
 - (nullable id<MPDataSetCache>) addDataSet:(NSString*)dataSetId cachingScope: (MPDataSetCachingScope) scope;
 
 /**
@@ -78,14 +81,14 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable id<MPDataSetCache>) dataSetWithId:(NSString*)dataSetId;
 
 /**
-Get the dataset-object for the current MapsIndoors API key / solution
-- Returns: MPDataSetCache*
-*/
+ Get the dataset-object for the current MapsIndoors API key / solution
+ - Returns: MPDataSetCache*
+ */
 - (nullable id<MPDataSetCache>) dataSetForCurrentMapsIndoorsAPIKey;
 
 /**
  Set a caching strategy for given cache item.
-
+ 
  - Parameter strategy: Caching strategy.
  - Parameter cacheItem: Cache item.
  - Returns: YES if strategy is set for this item, else NO.
@@ -94,7 +97,7 @@ Get the dataset-object for the current MapsIndoors API key / solution
 
 /**
  Set a caching scope for given cache item.
-
+ 
  - Parameter scope: Caching scope.
  - Parameter cacheItem: Cache item.
  - Returns: YES if strategy is changed for this item, else NO.
@@ -108,7 +111,7 @@ Get the dataset-object for the current MapsIndoors API key / solution
 
 /**
  Fetch and update content for given cache items. The delegate object receives the completion event.
-
+ 
  - Parameter items: The cache items to perform a synchronisation for.
  */
 - (void) synchronizeCacheItems:(NSArray<id<MPDataSetCacheItem>>*)items;
@@ -131,6 +134,12 @@ Get the dataset-object for the current MapsIndoors API key / solution
  - Parameter delegate:     callback/progress receiver
  */
 - (void) fetchSyncSizesForDataSetCaches:(NSArray<id<MPDataSetCache>>*)dataSetCaches delegate:(id<MPDataSetCacheManagerSizeDelegate>)delegate;
+
+- (NSString*) pathForCachedUrl:(NSURL*)url dataSetId:(NSString*)dataSetId;
+
+- (nullable NSData*) dataForCachedUrl:(NSURL*)url dataSetId:(NSString*)dataSetId;
+
+- (void) synchronizeCurrentDataSetContent:(nullable mpSyncContentHandlerBlockType)completionHandler;
 
 @end
 

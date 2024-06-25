@@ -37,7 +37,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, readwrite) MPDataSetCachingStrategy       cachingStrategy;
 
-@property (nonatomic, strong, readwrite) MPFileCache*           cache;
 @property (nonatomic, strong, readwrite) MPDataSetCacheTask*    taskForScopingDataSetSize;
 
 

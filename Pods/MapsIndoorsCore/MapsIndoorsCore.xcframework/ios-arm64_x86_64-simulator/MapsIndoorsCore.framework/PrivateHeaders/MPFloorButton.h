@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MPDefines.h"
 
 
 #pragma mark - [INTERNAL - DO NOT USE]

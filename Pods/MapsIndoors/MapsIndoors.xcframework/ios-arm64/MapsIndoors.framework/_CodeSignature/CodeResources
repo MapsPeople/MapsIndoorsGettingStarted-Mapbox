@@ -6,15 +6,11 @@
 	<dict>
 		<key>Headers/MapsIndoors-Swift.h</key>
 		<data>
-		/a5S2AJ+6EPiHGFkqyZPuorDlHo=
-		</data>
-		<key>Headers/MapsIndoors.h</key>
-		<data>
-		PEF2Y31X1REyOy5i6CePmJw6a8M=
+		e3zKtguGtwKN4WyAUeF+PoNxFMs=
 		</data>
 		<key>Info.plist</key>
 		<data>
-		L4q8uo4uDzgQQMveqHTvQsvxDas=
+		WPcZ9aghJipffHqnotavU4qDBYY=
 		</data>
 		<key>MapsIndoors.bundle/.gitkeep</key>
 		<data>
@@ -47,7 +43,7 @@
 		</dict>
 		<key>MapsIndoors.bundle/default_mapspeople_googlemaps_style.json</key>
 		<data>
-		yXMuZl0VpHxv9/40yiLmRDg09a8=
+		/x/9JXtICRprxohWmg1e766AfbI=
 		</data>
 		<key>MapsIndoors.bundle/elevator.png</key>
 		<data>
@@ -182,29 +178,37 @@
 		<data>
 		i1EMvbC++ZGACbN/JJaurpgD9L4=
 		</data>
+		<key>MapsIndoors.bundle/stop-pin.png</key>
+		<data>
+		edh8yB7amvbWcG7zBLequaTkQvU=
+		</data>
 		<key>Modules/MapsIndoors.swiftmodule/arm64-apple-ios.abi.json</key>
 		<data>
-		HrrDxAf+hWvcJYUWurpCKlameog=
+		vW4kWBEKi4e02JqLVS7bkLs7Yik=
 		</data>
 		<key>Modules/MapsIndoors.swiftmodule/arm64-apple-ios.private.swiftinterface</key>
 		<data>
-		8v1RYNOo6UHgS2r7occWNOjwx0w=
+		/NJi96DqozhZLz9ijMoKOfV5bRA=
 		</data>
 		<key>Modules/MapsIndoors.swiftmodule/arm64-apple-ios.swiftdoc</key>
 		<data>
-		pyQhpcxIfJggeGvNuOhVjNilF4Q=
+		pNbVZHekBFxanFKBsfxExHh8Xlo=
 		</data>
 		<key>Modules/MapsIndoors.swiftmodule/arm64-apple-ios.swiftinterface</key>
 		<data>
-		8v1RYNOo6UHgS2r7occWNOjwx0w=
+		gaAVdROuLo0nFs3HXGgnDzI5PWI=
 		</data>
 		<key>Modules/MapsIndoors.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<data>
-		DX6GA272pSaMJXucpOtbSif1Qlo=
+		A0Omuaq9C2A9tXzrAT2uUIXeAYw=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
-		FKRdN6QIAFMHQatZN0SeKpfdbbg=
+		hT/XIrFFYpexPdAlnYwQ1fnxph8=
+		</data>
+		<key>PrivacyInfo.xcprivacy</key>
+		<data>
+		MhaRRfHH0nmxuuFdmyHRfmRqWVE=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -213,14 +217,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			KRkamL13hnU/opaMHQ7nAEmh7gKj37FfU138U9iktic=
-			</data>
-		</dict>
-		<key>Headers/MapsIndoors.h</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			Gf4eH1aiiY/91Aou+bxZvFSdseC0SWHCQvU26RS6rSY=
+			rUpB5g8cXlobfHiUqEINZvi8Wn/ldj4+pMGR0yUPPkk=
 			</data>
 		</dict>
 		<key>MapsIndoors.bundle/.gitkeep</key>
@@ -271,7 +268,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			8FvJPza1tUtt+TmG49cjtJmvmPXRcZGnkRvqXn/qOaI=
+			ml8TX6G7+6AJBELpjtve83qTflSwpxlt16YtMtBUKPY=
 			</data>
 		</dict>
 		<key>MapsIndoors.bundle/elevator.png</key>
@@ -500,46 +497,60 @@
 			tusulRylo0oeuM9b7CLwqIu/7K0yYeC0axkHhvMiwh8=
 			</data>
 		</dict>
+		<key>MapsIndoors.bundle/stop-pin.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			V2A4XhU0ED9IiAdSPtGLnZZFPso+CZ70uNqiCBZf7X8=
+			</data>
+		</dict>
 		<key>Modules/MapsIndoors.swiftmodule/arm64-apple-ios.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			LoLJNh7DI1YZiM88cpijnVN88z3tFqqec1m80hV+b/w=
+			/o+vF4kx9xJlxMq+/O+mvayAMtVRSrkldlqBRASq9YE=
 			</data>
 		</dict>
 		<key>Modules/MapsIndoors.swiftmodule/arm64-apple-ios.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			AcuVAYvQNJReu3/KiDmd+g/PtjqdNQ27wqq+wUHH81I=
+			bgdsfXufTqGFesrP1/a0GGltImiLuWdx31LEpqIRKZc=
 			</data>
 		</dict>
 		<key>Modules/MapsIndoors.swiftmodule/arm64-apple-ios.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			zRA9HI/7VhbluZYBnBd8dUAmK7TRQA1JKRmCJmcVzzY=
+			Di8Af8RBCGyD3bZdt4wTfjlauYZXTXlNEUUupeOnR6Y=
 			</data>
 		</dict>
 		<key>Modules/MapsIndoors.swiftmodule/arm64-apple-ios.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			AcuVAYvQNJReu3/KiDmd+g/PtjqdNQ27wqq+wUHH81I=
+			xXPbkUQqdXfElSQc7AHvsGZkkoOXZaAzH2sJ88eKOZA=
 			</data>
 		</dict>
 		<key>Modules/MapsIndoors.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			NDYJlZANCee0JkqyLRNzCleBCmNVscOXj+T7KwNL7u8=
+			IvEA8TF0nV5UaOX85A5dUWqKbEgjEYedCf5bA2XRNaQ=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			cQbUIj9Fy8tVIj1A0dLTG1MxL0A7u1s+UX21zLdMGb4=
+			7Gf136rzGyD00+ntAobmoXOCPa9Jt1otTVGu/EtGA14=
+			</data>
+		</dict>
+		<key>PrivacyInfo.xcprivacy</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			+AJB77b9Pzz2ahnVgquWiKV6QC5pyg3fQGneateSXGU=
 			</data>
 		</dict>
 	</dict>

@@ -2,7 +2,7 @@
 
 #import <Foundation/Foundation.h>
 
-/** The information about style object (source or layer). */
+/** The information about style object (source or layer or light). */
 NS_SWIFT_NAME(StyleObjectInfo)
 __attribute__((visibility ("default")))
 @interface MBMStyleObjectInfo : NSObject
@@ -13,7 +13,7 @@ __attribute__((visibility ("default")))
 // This class provides custom init which should be called
 + (nonnull instancetype)new NS_UNAVAILABLE;
 
-- (nonnull instancetype)initWithId:(nonnull NSString *)id
+- (nonnull instancetype)initWithId:(nonnull NSString *)id_
                               type:(nonnull NSString *)type;
 
 /** The object's identifier. */

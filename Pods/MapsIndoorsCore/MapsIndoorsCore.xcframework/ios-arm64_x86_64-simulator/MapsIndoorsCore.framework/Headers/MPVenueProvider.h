@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MPDefines.h"
 @import MapsIndoors;
 
 @class MPBuildingInternal;
@@ -204,5 +203,7 @@ typedef void(^mpGeocodeHandlerBlockType)(MPVenueInternal* _Nullable venue, MPBui
  - Returns: YES if offline or preloaded data is available, else NO,
  */
 + (BOOL) isOfflineDataAvailableForSolutionId:(nonnull NSString*)solutionId language:(nonnull NSString*)language;
+
++ (nonnull NSString*) buildingsCacheKeyForSolutionId:(nonnull NSString*)solutionId language:(nonnull NSString*)language;
 
 @end

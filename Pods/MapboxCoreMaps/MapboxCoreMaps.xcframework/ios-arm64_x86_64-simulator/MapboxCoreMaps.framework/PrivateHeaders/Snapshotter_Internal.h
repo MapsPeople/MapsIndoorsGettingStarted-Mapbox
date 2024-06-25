@@ -1,4 +1,6 @@
 // This file is generated and will be overwritten automatically.
 
-#import "MBMSnapshotCompleteCallback_Internal.h"
+#import "MBMMapSnapshotOptions_Internal.h"
+#import "MBMMapSnapshot_Internal.h"
 #import "MBMMapSnapshotter_Internal.h"
+#import "MBMSnapshotCompleteCallback_Internal.h"

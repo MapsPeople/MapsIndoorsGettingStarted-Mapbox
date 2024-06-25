@@ -1,12 +1,12 @@
 # Uncomment the next line to define a global platform for your project
-platform :ios, '13.0'
+platform :ios, '14.0'
 
 target 'MapsIndoorsGettingStarted-Mapbox' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
 
- # Pods for MapsIndoorsGettingStarted-Google
-  pod 'MapsIndoorsMapbox', '~> 4.0.2'
+  # Pods for MapsIndoorsGettingStarted-Mapbox
+  pod 'MapsIndoorsMapbox11', '~> 4.5.7'
 end
 
 PROJECT_ROOT_DIR = File.dirname(File.expand_path(__FILE__))

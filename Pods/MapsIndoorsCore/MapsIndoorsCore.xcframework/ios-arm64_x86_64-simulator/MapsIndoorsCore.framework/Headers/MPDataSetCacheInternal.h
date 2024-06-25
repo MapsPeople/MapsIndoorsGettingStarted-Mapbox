@@ -13,6 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - [INTERNAL - DO NOT USE]
 
+@class MPFileCache;
+
 /// > Warning: [INTERNAL - DO NOT USE]
 /**
 Data set cache class.
@@ -48,6 +50,8 @@ Cache item for caching the full data set.
  YES if this dataset has data bundled inside the application, else NO.
  */
 @property (nonatomic, readonly) BOOL                            haveBundledData;
+
+@property (nonatomic, strong, readwrite) MPFileCache* cache;
 
 @end
 

@@ -31,17 +31,19 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, copy, nullable) NSDictionary<NSString*, id<MPLocationField>><MPLocationFieldInternal>* fields;
 /**
-Location Type name.
-*/
+ Location Type name.
+ */
 @property (nonatomic, copy, nullable) NSString* name;
 /**
  Get restrictions for Type. Locations of this Type is restricted to this set of app user roles.
  */
 @property (nonatomic, copy, nullable) NSArray<NSString*>* restrictions;
 /**
-Location Type translated name. May be nil if not defined in the CMS.
-*/
+ Location Type translated name. May be nil if not defined in the CMS.
+ */
 @property (nonatomic, copy, nullable) NSString* translatedName;
+
+@property (nonatomic, strong, nullable) MPLocationSettings* locationSettings;
 
 @end
 

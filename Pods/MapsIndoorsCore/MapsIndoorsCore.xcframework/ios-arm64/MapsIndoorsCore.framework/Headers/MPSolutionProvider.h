@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MPDefines.h"
 
 @class MPSolutionInternal;
 @class MPUserRole;
