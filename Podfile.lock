@@ -1,21 +1,22 @@
 PODS:
-  - MapboxCommon (24.4.0)
-  - MapboxCoreMaps (11.4.0):
-    - MapboxCommon (~> 24.4)
-  - MapboxMaps (11.4.0):
-    - MapboxCommon (= 24.4.0)
-    - MapboxCoreMaps (= 11.4.0)
-    - Turf (= 2.8.0)
-  - MapsIndoors (4.5.7)
-  - MapsIndoorsCore (4.5.7):
-    - MapsIndoors (= 4.5.7)
-  - MapsIndoorsMapbox11 (4.5.7):
-    - MapboxMaps (= 11.4.0)
-    - MapsIndoorsCore (= 4.5.7)
-  - Turf (2.8.0)
+  - MapboxCommon (24.9.0):
+    - Turf (= 4.0.0)
+  - MapboxCoreMaps (11.9.2):
+    - MapboxCommon (~> 24.9)
+  - MapboxMaps (11.9.1):
+    - MapboxCommon (= 24.9.0)
+    - MapboxCoreMaps (= 11.9.2)
+    - Turf (= 4.0.0)
+  - MapsIndoors (4.9.4)
+  - MapsIndoorsCore (4.9.4):
+    - MapsIndoors (= 4.9.4)
+  - MapsIndoorsMapbox11 (4.9.4):
+    - MapboxMaps (= 11.9.1)
+    - MapsIndoorsCore (= 4.9.4)
+  - Turf (4.0.0)
 
 DEPENDENCIES:
-  - MapsIndoorsMapbox11 (~> 4.5.7)
+  - MapsIndoorsMapbox11 (~> 4.9.4)
 
 SPEC REPOS:
   trunk:
@@ -28,14 +29,14 @@ SPEC REPOS:
     - Turf
 
 SPEC CHECKSUMS:
-  MapboxCommon: 6acbd8ff41d66abf498e1558b0739f25c562945a
-  MapboxCoreMaps: f306bb1b10ebe995a2247b40e99322ab7f9b8071
-  MapboxMaps: 82044383ae19ec124ff444ec4b5d3ce82cb36ba5
-  MapsIndoors: 4d55a2cad9c50a6f5422c669227db1224f68676b
-  MapsIndoorsCore: b19c12854c09a444b3dbeaf8178a84cf498e9d8f
-  MapsIndoorsMapbox11: 6f7e1fa0afba22bb48924c53fbc0491ba0084dad
-  Turf: aa2ede4298009639d10db36aba1a7ebaad072a5e
+  MapboxCommon: 678bfc4b477a804244fd7323c79cc7f2402f844e
+  MapboxCoreMaps: c22e65380c0e11551081196f083b20cab662a5fe
+  MapboxMaps: dbe3b02f9adcee903d5217c9b251536828bc6304
+  MapsIndoors: 71f610057764e151e635182e719e22f356ecaca8
+  MapsIndoorsCore: 70d4689cfd353edeaca4831ea9c0739ac51b6904
+  MapsIndoorsMapbox11: bdf2ce6b7baf39e9a7a38aacff6c719644101cf2
+  Turf: c9eb11a65d96af58cac523460fd40fec5061b081
 
-PODFILE CHECKSUM: 1221e4a67ed8d2b193e90289edf122d99416a557
+PODFILE CHECKSUM: de5ba42f6fb0cda7e123c2cb8e57dfb522c6628a
 
-COCOAPODS: 1.15.2
+COCOAPODS: 1.16.2

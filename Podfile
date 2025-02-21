@@ -6,7 +6,7 @@ target 'MapsIndoorsGettingStarted-Mapbox' do
   use_frameworks!
 
   # Pods for MapsIndoorsGettingStarted-Mapbox
-  pod 'MapsIndoorsMapbox11', '~> 4.5.7'
+  pod 'MapsIndoorsMapbox11', '~> 4.9.4'
 end
 
 PROJECT_ROOT_DIR = File.dirname(File.expand_path(__FILE__))
