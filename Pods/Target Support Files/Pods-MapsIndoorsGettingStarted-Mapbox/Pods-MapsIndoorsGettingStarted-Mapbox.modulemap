@@ -1,6 +1,0 @@
-framework module Pods_MapsIndoorsGettingStarted_Mapbox {
-  umbrella header "Pods-MapsIndoorsGettingStarted-Mapbox-umbrella.h"
-
-  export *
-  module * { export * }
-}
