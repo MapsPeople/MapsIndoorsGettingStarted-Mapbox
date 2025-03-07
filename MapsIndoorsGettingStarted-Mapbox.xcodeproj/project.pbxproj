@@ -14,6 +14,11 @@
 		4D72754C29D43CF100BB7556 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4D72754B29D43CF100BB7556 /* Assets.xcassets */; };
 		4D72754F29D43CF100BB7556 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4D72754D29D43CF100BB7556 /* LaunchScreen.storyboard */; };
 		BD07D4232D68D8650060C432 /* MapsIndoorsMapbox in Frameworks */ = {isa = PBXBuildFile; productRef = BD07D4222D68D8650060C432 /* MapsIndoorsMapbox */; };
+		BD07D4312D6CBCFE0060C432 /* ViewController+UITableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD07D4302D6CBCFE0060C432 /* ViewController+UITableViewDataSource.swift */; };
+		BD07D4332D6CBD280060C432 /* ViewController+UITableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD07D4322D6CBD280060C432 /* ViewController+UITableViewDelegate.swift */; };
+		BD07D4352D6CBD430060C432 /* ViewController+UISearchBarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD07D4342D6CBD430060C432 /* ViewController+UISearchBarDelegate.swift */; };
+		BD4C9A912D7B436A0066DFA8 /* ViewController+LiveData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4C9A902D7B436A0066DFA8 /* ViewController+LiveData.swift */; };
+		BD72354E2D6E18CA00F64B7D /* ExampleUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD72354D2D6E18C000F64B7D /* ExampleUI.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +32,11 @@
 		4D72755029D43CF100BB7556 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4D72755629D4A8EC00BB7556 /* MapsIndoorsMapbox.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = MapsIndoorsMapbox.xcframework; path = "../../../MISDKIOS/release/4.0.0-beta7/MapsIndoorsMapbox.xcframework"; sourceTree = "<group>"; };
 		4D72755829D4A8F400BB7556 /* MapboxDirections.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MapboxDirections.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BD07D4302D6CBCFE0060C432 /* ViewController+UITableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+UITableViewDataSource.swift"; sourceTree = "<group>"; };
+		BD07D4322D6CBD280060C432 /* ViewController+UITableViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+UITableViewDelegate.swift"; sourceTree = "<group>"; };
+		BD07D4342D6CBD430060C432 /* ViewController+UISearchBarDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+UISearchBarDelegate.swift"; sourceTree = "<group>"; };
+		BD4C9A902D7B436A0066DFA8 /* ViewController+LiveData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+LiveData.swift"; sourceTree = "<group>"; };
+		BD72354D2D6E18C000F64B7D /* ExampleUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleUI.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,10 +74,15 @@
 				4D72754229D43CF000BB7556 /* AppDelegate.swift */,
 				4D72754429D43CF000BB7556 /* SceneDelegate.swift */,
 				4D72754629D43CF000BB7556 /* ViewController.swift */,
-				4D72754829D43CF000BB7556 /* Main.storyboard */,
+				BD72354D2D6E18C000F64B7D /* ExampleUI.swift */,
+				BD4C9A902D7B436A0066DFA8 /* ViewController+LiveData.swift */,
+				BD07D4342D6CBD430060C432 /* ViewController+UISearchBarDelegate.swift */,
+				BD07D4302D6CBCFE0060C432 /* ViewController+UITableViewDataSource.swift */,
+				BD07D4322D6CBD280060C432 /* ViewController+UITableViewDelegate.swift */,
 				4D72754B29D43CF100BB7556 /* Assets.xcassets */,
-				4D72754D29D43CF100BB7556 /* LaunchScreen.storyboard */,
 				4D72755029D43CF100BB7556 /* Info.plist */,
+				4D72754D29D43CF100BB7556 /* LaunchScreen.storyboard */,
+				4D72754829D43CF000BB7556 /* Main.storyboard */,
 			);
 			path = "MapsIndoorsGettingStarted-Mapbox";
 			sourceTree = "<group>";
@@ -158,6 +173,11 @@
 				4D72754729D43CF000BB7556 /* ViewController.swift in Sources */,
 				4D72754329D43CF000BB7556 /* AppDelegate.swift in Sources */,
 				4D72754529D43CF000BB7556 /* SceneDelegate.swift in Sources */,
+				BD72354E2D6E18CA00F64B7D /* ExampleUI.swift in Sources */,
+				BD07D4332D6CBD280060C432 /* ViewController+UITableViewDelegate.swift in Sources */,
+				BD07D4352D6CBD430060C432 /* ViewController+UISearchBarDelegate.swift in Sources */,
+				BD07D4312D6CBCFE0060C432 /* ViewController+UITableViewDataSource.swift in Sources */,
+				BD4C9A912D7B436A0066DFA8 /* ViewController+LiveData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

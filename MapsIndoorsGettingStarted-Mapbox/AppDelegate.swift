@@ -1,11 +1,10 @@
-//  AppDelegate.swift
-import UIKit
 import MapsIndoorsCore
+import UIKit
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    static let mApiKey = "d876ff0e60bb430b8fabb145" // MapsIndoors Test API Key
+    static let mApiKey = "mapspeople3d"  // MapsIndoors Test API Key
     static let mapBoxApiKey = ProcessInfo.processInfo.environment["MBXAccessToken"] ?? "1234NotAToken"
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -27,6 +26,4 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
 
-
 }
-
