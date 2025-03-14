@@ -13,11 +13,15 @@
 		4D72754A29D43CF000BB7556 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4D72754829D43CF000BB7556 /* Main.storyboard */; };
 		4D72754C29D43CF100BB7556 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4D72754B29D43CF100BB7556 /* Assets.xcassets */; };
 		4D72754F29D43CF100BB7556 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4D72754D29D43CF100BB7556 /* LaunchScreen.storyboard */; };
-		AC4AE3B72308D7C28E826AE4 /* Pods_MapsIndoorsGettingStarted_Mapbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8A191E5EDEC9D067466003E /* Pods_MapsIndoorsGettingStarted_Mapbox.framework */; };
+		BD07D4232D68D8650060C432 /* MapsIndoorsMapbox in Frameworks */ = {isa = PBXBuildFile; productRef = BD07D4222D68D8650060C432 /* MapsIndoorsMapbox */; };
+		BD07D4312D6CBCFE0060C432 /* ViewController+UITableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD07D4302D6CBCFE0060C432 /* ViewController+UITableViewDataSource.swift */; };
+		BD07D4332D6CBD280060C432 /* ViewController+UITableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD07D4322D6CBD280060C432 /* ViewController+UITableViewDelegate.swift */; };
+		BD07D4352D6CBD430060C432 /* ViewController+UISearchBarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD07D4342D6CBD430060C432 /* ViewController+UISearchBarDelegate.swift */; };
+		BD4C9A912D7B436A0066DFA8 /* ViewController+LiveData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4C9A902D7B436A0066DFA8 /* ViewController+LiveData.swift */; };
+		BD72354E2D6E18CA00F64B7D /* ExampleUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD72354D2D6E18C000F64B7D /* ExampleUI.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		4423084A57894EE1E10CF38D /* Pods-MapsIndoorsGettingStarted-Mapbox.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MapsIndoorsGettingStarted-Mapbox.debug.xcconfig"; path = "Target Support Files/Pods-MapsIndoorsGettingStarted-Mapbox/Pods-MapsIndoorsGettingStarted-Mapbox.debug.xcconfig"; sourceTree = "<group>"; };
 		4D72753F29D43CF000BB7556 /* MapsIndoorsGettingStarted-Mapbox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MapsIndoorsGettingStarted-Mapbox.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4D72754229D43CF000BB7556 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4D72754429D43CF000BB7556 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -28,8 +32,11 @@
 		4D72755029D43CF100BB7556 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4D72755629D4A8EC00BB7556 /* MapsIndoorsMapbox.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = MapsIndoorsMapbox.xcframework; path = "../../../MISDKIOS/release/4.0.0-beta7/MapsIndoorsMapbox.xcframework"; sourceTree = "<group>"; };
 		4D72755829D4A8F400BB7556 /* MapboxDirections.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MapboxDirections.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D8A191E5EDEC9D067466003E /* Pods_MapsIndoorsGettingStarted_Mapbox.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MapsIndoorsGettingStarted_Mapbox.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		DE154729CA07B5E2E2A55F6D /* Pods-MapsIndoorsGettingStarted-Mapbox.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MapsIndoorsGettingStarted-Mapbox.release.xcconfig"; path = "Target Support Files/Pods-MapsIndoorsGettingStarted-Mapbox/Pods-MapsIndoorsGettingStarted-Mapbox.release.xcconfig"; sourceTree = "<group>"; };
+		BD07D4302D6CBCFE0060C432 /* ViewController+UITableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+UITableViewDataSource.swift"; sourceTree = "<group>"; };
+		BD07D4322D6CBD280060C432 /* ViewController+UITableViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+UITableViewDelegate.swift"; sourceTree = "<group>"; };
+		BD07D4342D6CBD430060C432 /* ViewController+UISearchBarDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+UISearchBarDelegate.swift"; sourceTree = "<group>"; };
+		BD4C9A902D7B436A0066DFA8 /* ViewController+LiveData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+LiveData.swift"; sourceTree = "<group>"; };
+		BD72354D2D6E18C000F64B7D /* ExampleUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleUI.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,7 +44,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AC4AE3B72308D7C28E826AE4 /* Pods_MapsIndoorsGettingStarted_Mapbox.framework in Frameworks */,
+				BD07D4232D68D8650060C432 /* MapsIndoorsMapbox in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -49,7 +56,6 @@
 			children = (
 				4D72754129D43CF000BB7556 /* MapsIndoorsGettingStarted-Mapbox */,
 				4D72754029D43CF000BB7556 /* Products */,
-				DE62FBD6B18FB4E1225DBF6A /* Pods */,
 				62E50539BDA6B07A1FF60ABA /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -68,10 +74,15 @@
 				4D72754229D43CF000BB7556 /* AppDelegate.swift */,
 				4D72754429D43CF000BB7556 /* SceneDelegate.swift */,
 				4D72754629D43CF000BB7556 /* ViewController.swift */,
-				4D72754829D43CF000BB7556 /* Main.storyboard */,
+				BD72354D2D6E18C000F64B7D /* ExampleUI.swift */,
+				BD4C9A902D7B436A0066DFA8 /* ViewController+LiveData.swift */,
+				BD07D4342D6CBD430060C432 /* ViewController+UISearchBarDelegate.swift */,
+				BD07D4302D6CBCFE0060C432 /* ViewController+UITableViewDataSource.swift */,
+				BD07D4322D6CBD280060C432 /* ViewController+UITableViewDelegate.swift */,
 				4D72754B29D43CF100BB7556 /* Assets.xcassets */,
-				4D72754D29D43CF100BB7556 /* LaunchScreen.storyboard */,
 				4D72755029D43CF100BB7556 /* Info.plist */,
+				4D72754D29D43CF100BB7556 /* LaunchScreen.storyboard */,
+				4D72754829D43CF000BB7556 /* Main.storyboard */,
 			);
 			path = "MapsIndoorsGettingStarted-Mapbox";
 			sourceTree = "<group>";
@@ -81,18 +92,8 @@
 			children = (
 				4D72755829D4A8F400BB7556 /* MapboxDirections.framework */,
 				4D72755629D4A8EC00BB7556 /* MapsIndoorsMapbox.xcframework */,
-				D8A191E5EDEC9D067466003E /* Pods_MapsIndoorsGettingStarted_Mapbox.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		DE62FBD6B18FB4E1225DBF6A /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				4423084A57894EE1E10CF38D /* Pods-MapsIndoorsGettingStarted-Mapbox.debug.xcconfig */,
-				DE154729CA07B5E2E2A55F6D /* Pods-MapsIndoorsGettingStarted-Mapbox.release.xcconfig */,
-			);
-			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -102,11 +103,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4D72755329D43CF100BB7556 /* Build configuration list for PBXNativeTarget "MapsIndoorsGettingStarted-Mapbox" */;
 			buildPhases = (
-				3A151768DCA838E0E452F41A /* [CP] Check Pods Manifest.lock */,
 				4D72753B29D43CF000BB7556 /* Sources */,
 				4D72753C29D43CF000BB7556 /* Frameworks */,
 				4D72753D29D43CF000BB7556 /* Resources */,
-				AAA42E4BCCC45801E7D84F06 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -141,6 +140,9 @@
 				Base,
 			);
 			mainGroup = 4D72753629D43CEF00BB7556;
+			packageReferences = (
+				BD07D4212D68D8650060C432 /* XCRemoteSwiftPackageReference "mapsindoors-mapbox-ios" */,
+			);
 			productRefGroup = 4D72754029D43CF000BB7556 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -163,48 +165,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		3A151768DCA838E0E452F41A /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-MapsIndoorsGettingStarted-Mapbox-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		AAA42E4BCCC45801E7D84F06 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MapsIndoorsGettingStarted-Mapbox/Pods-MapsIndoorsGettingStarted-Mapbox-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MapsIndoorsGettingStarted-Mapbox/Pods-MapsIndoorsGettingStarted-Mapbox-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MapsIndoorsGettingStarted-Mapbox/Pods-MapsIndoorsGettingStarted-Mapbox-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		4D72753B29D43CF000BB7556 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -213,6 +173,11 @@
 				4D72754729D43CF000BB7556 /* ViewController.swift in Sources */,
 				4D72754329D43CF000BB7556 /* AppDelegate.swift in Sources */,
 				4D72754529D43CF000BB7556 /* SceneDelegate.swift in Sources */,
+				BD72354E2D6E18CA00F64B7D /* ExampleUI.swift in Sources */,
+				BD07D4332D6CBD280060C432 /* ViewController+UITableViewDelegate.swift in Sources */,
+				BD07D4352D6CBD430060C432 /* ViewController+UISearchBarDelegate.swift in Sources */,
+				BD07D4312D6CBCFE0060C432 /* ViewController+UITableViewDataSource.swift in Sources */,
+				BD4C9A912D7B436A0066DFA8 /* ViewController+LiveData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -354,7 +319,6 @@
 		};
 		4D72755429D43CF100BB7556 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4423084A57894EE1E10CF38D /* Pods-MapsIndoorsGettingStarted-Mapbox.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -387,7 +351,6 @@
 		};
 		4D72755529D43CF100BB7556 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DE154729CA07B5E2E2A55F6D /* Pods-MapsIndoorsGettingStarted-Mapbox.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -440,6 +403,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		BD07D4212D68D8650060C432 /* XCRemoteSwiftPackageReference "mapsindoors-mapbox-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/MapsPeople/mapsindoors-mapbox-ios.git";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 4.9.4;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		BD07D4222D68D8650060C432 /* MapsIndoorsMapbox */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BD07D4212D68D8650060C432 /* XCRemoteSwiftPackageReference "mapsindoors-mapbox-ios" */;
+			productName = MapsIndoorsMapbox;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 4D72753729D43CEF00BB7556 /* Project object */;
 }

@@ -78,3 +78,4 @@ fastlane/test_output
 
 iOSInjectionProject/
 MapsIndoorsGettingStarted-Mapbox.xcodeproj/xcshareddata/xcschemes/MapsIndoorsGettingStarted-Mapbox.xcscheme
+.DS_Store
